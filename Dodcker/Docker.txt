@@ -1,0 +1,76 @@
+-------管理容器：
+
+啟動一個容器:
+docker run -d --name my_container nginx
+這會在後台啟動一個名為 my_container 的Nginx容器。
+
+停止容器:
+docker stop my_container
+這會停止名為 my_container 的容器。
+
+啟動已停止的容器:
+docker start my_container
+這會重新啟動名為 my_container 的容器。
+
+查看正在運行的容器:
+docker ps
+這將列出所有正在運行的容器。
+
+查看所有容器（包括停止的）:
+docker ps -a
+這將列出所有容器，包括已停止的容器。
+
+刪除容器:
+docker rm my_container
+這會刪除名為 my_container 的容器。
+
+
+如果要刪除所有已停止的容器令：
+docker container prune
+這會刪除所有的容器。
+
+
+在容器內執行命令:
+docker exec -it my_container bash
+這將進入名為 my_container 的容器並打開一個交互式Shell。
+
+--------管理鏡像：
+列出本地鏡像:
+docker images
+這將列出所有本地鏡像。
+
+從Docker Hub拉取鏡像:
+docker pull ubuntu:20.04
+這會從Docker Hub拉取Ubuntu 20.04鏡像。
+
+刪除本地鏡像:
+docker rmi ubuntu:20.04
+這會刪除名為 ubuntu:20.04 的本地鏡像。
+
+------------網絡操作：
+
+創建一個自定義網絡:
+docker network create my_network
+這會創建一個名為 my_network 的Docker網絡。
+
+將容器連接到網絡:
+docker network connect my_network my_container
+這會將名為 my_container 的容器連接到 my_network 網絡。
+
+從網絡斷開容器:
+docker network disconnect my_network my_container
+這會從 my_network 網絡斷開名為 my_container 的容器。
+
+--------------卷操作：
+
+列出Docker卷:
+docker volume ls
+這將列出所有Docker卷。
+
+創建Docker卷:
+docker volume create my_volume
+這會創建一個名為 my_volume 的Docker卷。
+
+刪除Docker卷:
+docker volume rm my_volume
+這會刪除名為 my_volume 的Docker卷。

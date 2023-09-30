@@ -1,0 +1,41 @@
+啟動Compose服務:
+docker-compose up
+這將啟動Compose文件中定義的所有服務。
+
+後台啟動Compose服務:
+docker-compose up -d
+這將在後台啟動Compose文件中定義的所有服務。
+
+構建Compose服務:
+docker-compose build
+這會構建Compose文件中定義的所有服務的鏡像。
+
+停止Compose服務:
+docker-compose down
+這將停止Compose文件中定義的所有服務並刪除相關容器。
+
+查看Compose服務狀態:
+docker-compose ps
+這會显示Compose文件中定義的所有服務的狀態。
+
+查看Compose日誌:
+docker-compose logs
+這會显示Compose文件中定義的所有服務的日誌輸出。
+
+重建Compose服務:
+docker-compose up --build
+這會啟動Compose文件中定義的所有服務，並在需要時重新構建鏡像。
+
+執行Compose服務內的命令:
+docker-compose exec <service_name> <command>
+這將在Compose服務中的指定服務上執行命令。例如：
+docker-compose exec webserver ls /var/www
+
+
+
+列出Compose定義的服務:
+docker-compose config --services
+這會列出Compose文件中定義的所有服務名稱。
+
+列出Compose定義的容器:
+docker-compose ps -q
