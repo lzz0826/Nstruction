@@ -1,0 +1,5 @@
+更新update
+apt-get update
+
+安裝vim
+apt-get install vim

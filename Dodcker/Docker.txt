@@ -4,6 +4,10 @@
 docker run -d --name my_container nginx
 這會在後台啟動一個名為 my_container 的Nginx容器。
 
+進入容器
+docker exec -it container_name_or_id /bin/bash
+
+
 停止容器:
 docker stop my_container
 這會停止名為 my_container 的容器。

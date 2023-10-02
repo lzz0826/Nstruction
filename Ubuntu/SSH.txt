@@ -1,0 +1,31 @@
+
+
+-----Systemd command--------------Sysvinit command 對照表 Systemd有時候不能用
+
+systemctl start service_name	    service service_name start
+systemctl stop service_name      	service service_name stop
+systemctl restart service_name   	service service_name restart
+systemctl status service_name    	service service_name status
+systemctl enable service_name   	chkconfig service_name on
+systemctl disable service_name  	chkconfig service_name off
+
+
+------改用密鑰來進行 SSH 連接：
+
+
+在本地生成 SSH 密鑰對：如果你還沒有 SSH 密鑰對，可以使用以下命令在本地計算機上生成一個：
+ssh-keygen -t rsa -b 4096 -f ~/.ssh/my-ssh-key
+私鑰保存在 ~/.ssh/my-ssh-key 公鑰保存在 ~/.ssh/my-ssh-key.pub。你可以根據需要更改文件名和路徑。
+
+將公鑰添加到容器的 authorized_keys 文件：將你的公鑰內容添加到容器中 ~/.ssh/authorized_keys 文件中。你可以通過以下方式將本地公鑰內容添加到容器內：
+cat ~/.ssh/my-ssh-key.pub | ssh admin@localhost -p 2222 "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+這將把你的公鑰內容追加到容器中 ~/.ssh/authorized_keys 文件中，允許使用私鑰進行身份驗證。
+或是
+vim ~/.ssh/authorized_keys
+進到authorized_keys 貼上~/.ssh/my-ssh-key.pub裡的公鑰
+
+
+使用私鑰進行 SSH 連接：現在，你可以使用私鑰進行 SSH 連接。使用以下命令：
+ssh -i ~/.ssh/my-ssh-key admin@localhost -p 2222
+這會使用指定的私鑰 ~/.ssh/my-ssh-key 連接到容器。
+

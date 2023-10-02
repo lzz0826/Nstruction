@@ -1,0 +1,56 @@
+
+----------------Dockerfile  ubuntu:18.04 配置了 SSH 服務器
+
+# 使用更新的Ubuntu 18.04鏡像
+FROM ubuntu:18.04
+
+# 安裝SSH服務器和sudo工具
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y openssh-server sudo && \
+    rm -rf /var/lib/apt/lists/* && \
+    mkdir /var/run/sshd
+
+# 創建一個新的用戶（你可以替換為你喜歡的用戶名）
+RUN useradd -m -s /bin/bash yourusername && \
+    echo 'yourusername:yourpassword' | chpasswd && \
+    echo 'yourusername ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+# 允許root用戶通過SSH登錄
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+# 允許密碼登錄（可選，如果你想使用密碼登錄）
+# RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+# 暴露SSH端口
+EXPOSE 22
+
+# 啟動SSH服務
+CMD ["/usr/sbin/sshd", "-D"]
+請注意，上述示例將用戶名和密碼硬編碼到 Dockerfile 中。在實際使用中，你應該更加謹慎，並使用更安全的方法來處理用戶憑據。另外，確保你的密碼是強密碼，並替換 "yourusername" 和 "yourpassword" 為你自己的用戶名和密碼。
+
+
+-----------------------------構建 Docker 鏡像：
+
+
+docker build -t ubuntu-ssh .
+運行容器並映射SSH端口：
+
+
+docker run -d -p 2222:22 --name ubuntu-ssh-container ubuntu-ssh
+現在，你可以使用 SSH 客戶端連接到容器。首先，獲取容器的IP地址：
+
+
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ubuntu-ssh-container
+然後，使用 SSH 客戶端連接到容器：
+
+
+ssh yourusername@CONTAINER_IP -p 2222
+將 "yourusername" 替換為你在 Dockerfile 中指定的用戶名，並替換 "CONTAINER_IP" 為容器的IP地址。
+
+這將允許你通過SSH連接到運行 Ubuntu 18.04 的容器，並以root用戶身份進行訪問，前提是你在 Dockerfile 中配置了PermitRootLogin。
+
+--------------------------啟動
+
+docker run -d -p 2222:22 --privileged=true --name ubuntu-ssh-container ubuntu-ssh
+
+ssh admin@localhost -p 2222
