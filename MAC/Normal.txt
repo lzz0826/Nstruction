@@ -1,0 +1,16 @@
+
+
+------環境變數
+Update your PATH in ~/.zshrc:
+echo 'export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"' >> ~/.zshrc
+echo 'export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
+
+Or ~/.bashrc:
+echo 'export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"' >> ~/.bashrc
+echo 'export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+
+---自動配置環境變數
+brew unlink php@7.3  # 取消鏈接其他版本
+brew link php@7.4  # 鏈接 PHP 7.4
