@@ -1,0 +1,59 @@
+
+
+git status
+
+git pull
+
+git push origin main
+
+git add --all
+
+git commit -m 'xxx'
+
+
+放暫存
+git stash
+
+重載存取
+git stashpop
+
+查看提交紀錄 案q離開
+git log main
+
+
+---推送新分支(正規流程)
+1. git checkout -b feat/newBracnch
+2. pull origin master
+3.改動
+4. git status
+5. git commit -m ‘update’
+6. git pull origin master  (衝突)
+7. git push origin feat/newBranch
+
+
+
+----分支
+下載所有遠程分支
+git fetch origin
+
+查看所有分支
+git branch -a
+
+刪除分支
+git branch -d <branch>
+
+-----回滾
+git reset ：回滚到某次提交。
+git reset --soft ：此次提交之后的修改会被退回到暂存区。
+git reset --hard ：此次提交之后的修改不做任何保留， git status 查看工作区是没有记录的。
+
+--新增忽略文件
+git add .gitignore
+git commit -m "Add .gitignore file"
+git push
+
+
+
+----GitHub 倉庫中刪除已經上傳的文件。這不會刪除本地文件，只是將它們從倉庫中移除。你可以使用以下命令：
+git rm --cached 文件名
+git rm -r --cached .idea
