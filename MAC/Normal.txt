@@ -1,5 +1,8 @@
 
 
+查詢版本
+brew search php
+
 ------環境變數
 Update your PATH in ~/.zshrc:
 echo 'export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"' >> ~/.zshrc
@@ -14,3 +17,23 @@ source ~/.bashrc
 ---自動配置環境變數
 brew unlink php@7.3  # 取消鏈接其他版本
 brew link php@7.4  # 鏈接 PHP 7.4
+
+
+----linux---
+
+md5 7ee5d6171a0d9e57370d58730c94e5d5.png.zip
+
+查端口
+sudo lsof -i :9300
+
+殺端口
+sudo kill <PID>
+
+使用憑證路徑登入ssh
+ssh -i /users/sai/desktop/mini_app_server_test.pem ec2-user@175.41.180.148
+
+查對外主機ip
+ifconfig |grep "inet " |grep -v 127.0.0.1 |awk '{print $2}'
+
+*條權限
+chmod -R 777 elasticsearch

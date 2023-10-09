@@ -3,3 +3,42 @@ apt-get update
 
 安裝vim
 apt-get install vim
+
+查看進程
+ps -ef | grep nginx
+
+關閉linux
+reboot
+
+创建一个名为"my_folder"的新文件夹：
+mkdir my_folder
+
+
+创建一个包含多个子文件夹的目录结构，可以使用-p选项。
+例如，要创建一个名为"parent"的目录，并在其中创建一个名为"child1"的子目录和一个名为"child2"的子目录，可以这样做：
+mkdir -p parent/child1 parent/child2
+
+查看某檔案MD5
+md5 7ee5d6171a0d9e57370d58730c94e5d5.png.zip
+
+查端口
+sudo lsof -i :9300
+
+殺端口
+sudo kill <PID>
+
+使用憑證路徑登入ssh
+ssh -i /users/sai/desktop/mini_app_server_test.pem ec2-user@175.41.180.148
+
+查對外主機ip
+ifconfig |grep "inet " |grep -v 127.0.0.1 |awk '{print $2}'
+
+*條權限
+chmod -R 777 elasticsearch
+
+修改用戶權限
+sudo visudo
+
+
+複製檔案
+sudo cp /文件的路径/nginx.conf /usr/local/nginx/conf/nginx.conf

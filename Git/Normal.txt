@@ -42,6 +42,15 @@ git branch -a
 刪除分支
 git branch -d <branch>
 
+
+拉取远程分支 feat/emailCod
+git fetch origin feat/emailCode
+这将从远程仓库 (origin) 拉取 feat/emailCode 分支的最新更新，但它不会自动创建或切换到本地分支。
+
+要将远程分支的更改合并到本地分支
+git checkout -b feat/emailCode origin/feat/emailCode
+这将在本地创建一个名为 feat/emailCode 的新分支，并将其设置为跟踪远程分支 origin/feat/emailCode。现在你可以在本地工作并推送更改到远程分支。
+
 -----回滾
 git reset ：回滚到某次提交。
 git reset --soft ：此次提交之后的修改会被退回到暂存区。

@@ -31,19 +31,19 @@ CMD ["/usr/sbin/sshd", "-D"]
 
 -----------------------------構建 Docker 鏡像：
 
-
+build 鏡像
 docker build -t ubuntu-ssh .
+
+
 運行容器並映射SSH端口：
-
-
 docker run -d -p 2222:22 --name ubuntu-ssh-container ubuntu-ssh
+
+
 現在，你可以使用 SSH 客戶端連接到容器。首先，獲取容器的IP地址：
-
-
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ubuntu-ssh-container
+
+
 然後，使用 SSH 客戶端連接到容器：
-
-
 ssh yourusername@CONTAINER_IP -p 2222
 將 "yourusername" 替換為你在 Dockerfile 中指定的用戶名，並替換 "CONTAINER_IP" 為容器的IP地址。
 

@@ -10,6 +10,8 @@ systemctl enable service_name   	chkconfig service_name on
 systemctl disable service_name  	chkconfig service_name off
 
 
+
+
 ------改用密鑰來進行 SSH 連接：
 
 
