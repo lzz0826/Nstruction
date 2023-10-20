@@ -78,3 +78,9 @@ docker volume create my_volume
 刪除Docker卷:
 docker volume rm my_volume
 這會刪除名為 my_volume 的Docker卷。
+
+
+--------網路
+
+命令创建了一个名为 redis-cluster-net 的 Docker 网络
+docker network create --subnet=192.168.200.0/24 redis-cluster-net

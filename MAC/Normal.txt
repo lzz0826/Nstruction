@@ -1,7 +1,19 @@
 
+更新brew
+brew update
+
 
 查詢版本
 brew search php
+
+安裝
+brew install go@1.17
+
+解除安裝
+brew uninstall go
+
+查安裝訊息
+brew list go@1.17
 
 ------環境變數
 Update your PATH in ~/.zshrc:
@@ -21,6 +33,10 @@ brew link php@7.4  # 鏈接 PHP 7.4
 
 ----linux---
 
+打印echo
+echo $GOPATH
+
+查看檔案md5
 md5 7ee5d6171a0d9e57370d58730c94e5d5.png.zip
 
 查端口
@@ -37,3 +53,4 @@ ifconfig |grep "inet " |grep -v 127.0.0.1 |awk '{print $2}'
 
 *條權限
 chmod -R 777 elasticsearch
+

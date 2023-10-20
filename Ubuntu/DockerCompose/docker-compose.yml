@@ -1,8 +1,13 @@
 version: '3'
+
+networks:
+  nginx-cluster-net:
+    external:
+      name: nginx-cluster-net
 services:
   ubuntu-ssh-container:
     image: ubuntu-ssh
-    container_name: ubuntu-ssh-container
+    container_name: ubuntu-ssh01
     ports:
       - "2222:22"
       - "8080:80"
@@ -21,3 +26,6 @@ services:
       - "5672:5672"
       - "15672:15672"
     privileged: true
+    networks:
+      nginx-cluster-net:
+        ipv4_address: 192.168.100.101

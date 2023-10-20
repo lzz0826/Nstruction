@@ -1,0 +1,30 @@
+
+
+安裝 firewalld
+sudo apt install firewalld
+
+安裝 dbus
+sudo apt-get install dbus
+
+啟動dbus
+sudo service dbus start
+
+開啟防火牆
+systemctl start firewalld
+
+重啟防火牆
+systemctl restart firewalld
+
+重載規則
+firewall-cmd --reload
+
+查看已配置規則
+firewall-cmd --list-all
+
+指定端口和ip訪問 開方192.168.44.101可以訪問 端口8080 (實現外網不能連內網可以)
+firewall-cmd --permanent --add-rich-rule="rule family="ipv4" source address="192.168.44.101"
+port protocol="tcp" port="8080" accept"
+
+移除規則
+firewall-cmd --permanent --remove-rich-rule="rule family="ipv4" source
+address="192.168.44.101" port port="8080" protocol="tcp" accept"

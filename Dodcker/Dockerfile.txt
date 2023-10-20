@@ -1,0 +1,5 @@
+構建Docker映像：
+docker build -t my-ubuntu-ssh .
+
+運行容器:
+docker run -d -p 2222:22 my-ubuntu-ssh
