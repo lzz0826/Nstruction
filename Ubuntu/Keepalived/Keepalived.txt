@@ -1,0 +1,55 @@
+
+安裝 keepalived
+sudo apt install keepalived
+
+--------基本配置(主)---------------
+global_defs {
+   #id(唯一key)
+   router_id lb001
+}
+
+#vrrp_instance 實例名(類似群)
+vrrp_instance tony001 {
+    #主
+    state MASTER
+    #網卡名
+    interface eth0
+    virtual_router_id 51
+    # 優先級
+    priority 100
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass 1111
+    }
+    #虛擬ip 之後用戶都會訪問這(這台如果死了會跳到備用)
+    virtual_ipaddress {
+        192.168.200.200
+    }
+}
+--------基本配置(備用)----------------
+global_defs {
+   #id(唯一key)
+   router_id lb002
+}
+
+#vrrp_instance 實例名(類似群)
+vrrp_instance tony001 {
+    #備用
+    state BACKUP
+    #網卡名
+    interface eth0
+    virtual_router_id 51
+    # 優先級
+    priority 50
+    advert_int 1
+    authentication {
+        auth_type PASS
+        auth_pass 1111
+    }
+    #虛擬ip 之後用戶都會訪問這(主死了才會出現在這台)
+    virtual_ipaddress {
+        192.168.200.200
+    }
+}
+-----

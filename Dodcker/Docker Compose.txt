@@ -6,11 +6,14 @@ docker-compose up
 docker-compose up -d
 這將在後台啟動Compose文件中定義的所有服務。
 
+重啟Compose服務 (會保留當前資料 跟down 在 up有區別):
+docker-compose restart
+
 構建Compose服務:
 docker-compose build
 這會構建Compose文件中定義的所有服務的鏡像。
 
-停止Compose服務:
+停止Compose服務(會清除當前資料):
 docker-compose down
 這將停止Compose文件中定義的所有服務並刪除相關容器。
 

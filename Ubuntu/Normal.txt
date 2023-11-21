@@ -7,16 +7,25 @@ apt-get install vim
 查看進程
 ps -ef | grep nginx
 
+查看硬碟空間
+df -h
+
 關閉linux
 reboot
 
-创建一个名为"my_folder"的新文件夹：
+創建一個名為"my_folder"的新文件夾：
 mkdir my_folder
 
+解壓縮
+tar xzvf my_folder.gz
 
-创建一个包含多个子文件夹的目录结构，可以使用-p选项。
-例如，要创建一个名为"parent"的目录，并在其中创建一个名为"child1"的子目录和一个名为"child2"的子目录，可以这样做：
+創建一個包含多個子文件夾的目錄結構，可以使用-p選項。
+例如，要創建一個名為"parent"的目錄，並在其中創建一個名為"child1"的子目錄和一個名為"child2"的子目錄，可以這樣做：
 mkdir -p parent/child1 parent/child2
+
+
+查看ip地址
+ip a
 
 查看某檔案MD5
 md5 7ee5d6171a0d9e57370d58730c94e5d5.png.zip
@@ -39,6 +48,18 @@ chmod -R 777 elasticsearch
 修改用戶權限
 sudo visudo
 
+移動並重新命名檔案
+mv /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.old
+
 
 複製檔案
-sudo cp /文件的路径/nginx.conf /usr/local/nginx/conf/nginx.conf
+sudo cp /文件的路徑/nginx.conf /usr/local/nginx/conf/nginx.conf
+
+刪除檔案
+rm example.txt
+
+删除目录及其内容
+rm -r directoryname
+
+
+
