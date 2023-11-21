@@ -30,22 +30,22 @@ NEVER：
 隔離級別（Isolation Level）：
 隔離級別描述了在並發環境中多個事務之間的可見性和相互影響程度。隔離級別用於確定一個事務的操作是否能夠被其他事務看到，以及如何處理並發問題。
 
-READ UNCOMMITTED：
+READ UNCOMMITTED（讀未提交）：
 允許事務讀取尚未被其他事務提交的數據。
 
-READ COMMITTED（默認）：
+READ COMMITTED（讀已提交）（默認）：
 保證事務只能讀取已經被其他事務提交的數據。
 
-REPEATABLE READ：
+REPEATABLE READ（可重複讀）：
 保證在事務內多次讀取相同的數據時，得到的結果是一致的。
 
-SERIALIZABLE：
+SERIALIZABLE（可串行化）：
 最高的隔離級別，完全防止不可重複讀取、幽靈讀取和脏讀。
 
 READ SNAPSHOT（SQL Server 特有）：
 事務在開始時看到的數據快照將保持不變，即使其他事務對數據進行了修改。
 
-----------------------髒讀（Dirty Read）、重複讀（Non-Repeatable Read）和幻讀（Phantom Read）-------------------------------
+----------------------髒讀（Dirty Read）、不可重複讀（Non-Repeatable Read）和幻讀（Phantom Read）-------------------------------
 
 髒讀（Dirty Read）、重複讀（Non-Repeatable Read）和幻讀（Phantom Read）是在並發事務環境中可能發生的三種不同類型的讀取問題，
 這些問題反映了不同層次的隔離性。讓我們來看看這些問題：
@@ -60,7 +60,7 @@ READ SNAPSHOT（SQL Server 特有）：
 事務 B 現在看到的數據實際上是無效的。
 
 
-2. 重複讀（Non-Repeatable Read）：
+2. 不可重複讀（Non-Repeatable Read）：
 重複讀發生在一個事務內的兩次讀取操作之間，另一個事務對相同的數據進行了修改，導致兩次讀取的結果不一致。
 
 例子：
@@ -89,17 +89,19 @@ READ SNAPSHOT（SQL Server 特有）：
 
 1. READ UNCOMMITTED（讀未提交）：
 髒讀（Dirty Read）： 允許一個事務讀取到另一個事務尚未提交的數據。
+不可重複讀（Non-Repeatable Read）： 在同一事務內，兩次讀取同一數據得到不同的結果。
+幻讀（Phantom Read）： 在同一事務內，兩次查詢得到不同的結果，可能包含新插入的數據。
 
 2. READ COMMITTED（讀已提交）：
-重複讀（Non-Repeatable Read）： 在同一事務內，兩次讀取同一數據得到不同的結果。
+不可重複讀（Non-Repeatable Read）： 在同一事務內，兩次讀取同一數據得到不同的結果。
+幻讀（Phantom Read）： 在同一事務內，兩次查詢得到不同的結果，可能包含新插入的數據。
 
 3. REPEATABLE READ（可重複讀）：
-重複讀（Non-Repeatable Read）： 在同一事務內，兩次讀取同一數據得到不同的結果。
 幻讀（Phantom Read）： 在同一事務內，兩次查詢得到不同的結果，可能包含新插入的數據。
 
 4. SERIALIZABLE（可串行化）：
-重複讀（Non-Repeatable Read）： 在同一事務內，兩次讀取同一數據得到不同的結果。
-幻讀（Phantom Read）： 在同一事務內，兩次查詢得到不同的結果，可能包含新插入的數據。
+最高級別避免所有問題(效能低)
+
 
 注意：
 隨著隔離級別的提高，確保數據的一致性和可靠性的同時，並發性能可能下降。因此，在選擇隔離級別時，需要權衡一致性和性能的需求。
