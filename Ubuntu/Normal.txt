@@ -25,6 +25,8 @@ mkdir -p parent/child1 parent/child2
 
 
 查看ip地址
+apt-get update
+apt-get install iproute2
 ip a
 
 查看某檔案MD5
