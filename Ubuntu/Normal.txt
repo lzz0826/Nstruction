@@ -1,3 +1,7 @@
+
+查詢安裝路徑
+which docker
+
 更新update
 apt-get update
 
@@ -28,6 +32,10 @@ mkdir -p parent/child1 parent/child2
 apt-get update
 apt-get install iproute2
 ip a
+
+网路工具包
+apt-get install -y iputils-ping
+
 
 查看某檔案MD5
 md5 7ee5d6171a0d9e57370d58730c94e5d5.png.zip

@@ -1,3 +1,17 @@
+启动 Docker 服务:
+sudo service docker start
+
+自動启动Docker:
+sudo systemctl enable docker
+
+
+停止 Docker 服务:
+sudo service docker stop
+
+系统启动时禁用 Docker :
+sudo systemctl disable docker
+
+
 -------管理容器：
 
 啟動一個容器:
@@ -37,6 +51,18 @@ docker container prune
 在容器內執行命令:
 docker exec -it my_container bash
 這將進入名為 my_container 的容器並打開一個交互式Shell。
+
+重启一个容器:
+docker restart
+
+暂停一个容器的所有进程:
+docker pause
+
+恢复一个暂停的容器:
+docker unpause
+
+强制终止一个容器:
+docker kill
 
 --------管理鏡像：
 列出本地鏡像:
