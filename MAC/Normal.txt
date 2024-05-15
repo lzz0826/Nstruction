@@ -43,6 +43,7 @@ echo $GOPATH
 md5 7ee5d6171a0d9e57370d58730c94e5d5.png.zip
 
 查端口
+sudo apt-get install lsof # 安裝lsof
 sudo lsof -i :9300
 
 殺端口
