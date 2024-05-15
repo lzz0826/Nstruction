@@ -9,12 +9,6 @@ systemctl status service_name    	service service_name status
 systemctl enable service_name   	chkconfig service_name on
 systemctl disable service_name  	chkconfig service_name off
 
-sudo systemctl start keepalived
-sudo systemctl start firewalld
-
-service keepalived start
-sudo service dbus start
-
 
 ------改用密鑰來進行 SSH 連接：
 
