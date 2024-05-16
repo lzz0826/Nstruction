@@ -53,6 +53,15 @@ git checkout -b feat/emailCode origin/feat/emailCode
 
 git log 查hard
 
+从远程仓库的 main 分支拉取更新，并允许合并不相关的历史
+git pull origin main --allow-unrelated-histories
+
+
+
+
+
+
+
 -----回滾
 git reset ：回滚到某次提交。
 git reset --soft ：此次提交之后的修改会被退回到暂存区。
