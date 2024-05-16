@@ -1,0 +1,4 @@
+使用docker 起GitLab至少要5G內存
+
+Gitlab root帳號初始密碼放在:
+cat /etc/gitlab/initial_root_password
