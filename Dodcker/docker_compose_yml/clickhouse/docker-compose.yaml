@@ -1,0 +1,151 @@
+version: "3"
+networks:
+    redis-cluster-net:
+        external:
+            name: redis-cluster-net
+services:
+  zoo1:
+    image: zookeeper
+    restart: always
+    hostname: zoo1
+    ports:
+      - 2181:2181
+    volumes:
+      - ./zk1data:/data
+      - ./zk1datalog:/datalog
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+    networks:
+      redis-cluster-net:
+        ipv4_address: 192.168.200.241
+  zoo2:
+    image: zookeeper
+    restart: always
+    hostname: zoo2
+    ports:
+      - 2182:2181
+    volumes:
+      - ./zk2data:/data
+      - ./zk2datalog:/datalog
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=zoo3:2888:3888;2181
+    networks:
+      redis-cluster-net:
+        ipv4_address: 192.168.200.242
+  zoo3:
+    image: zookeeper
+    restart: always
+    hostname: zoo3
+    ports:
+      - 2183:2181
+    volumes:
+      - ./zk3data:/data
+      - ./zk3datalog:/datalog
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
+    networks:
+      redis-cluster-net:
+        ipv4_address: 192.168.200.243
+  ck1:
+    image: yandex/clickhouse-server
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+      - "9009:9009"
+    depends_on:
+      - zoo1
+      - zoo2
+      - zoo3
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+      - './server1/.clickhouse-data/db:/var/lib/clickhouse/'
+      - './config/users.xml:/etc/clickhouse-server/users.xml'
+      - './config/config.xml:/etc/clickhouse-server/config.xml'
+      - './config/ck-cluster.xml:/etc/clickhouse-server/ck-cluster.xml'
+      - './server1/log:/var/log'
+      - './server1/config.d/macros-ck-cluster.xml:/etc/clickhouse-server/config.d/macros-ck-cluster.xml'
+    networks:
+      redis-cluster-net:
+        ipv4_address: 192.168.200.251
+  ck2:
+    image: yandex/clickhouse-server
+    ports:
+      - "8124:8123"
+      - "9001:9000"
+      - "9010:9009"
+    depends_on:
+      - zoo1
+      - zoo2
+      - zoo3
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+      - './server2/.clickhouse-data/db:/var/lib/clickhouse/'
+      - './config/users.xml:/etc/clickhouse-server/users.xml'
+      - './config/config.xml:/etc/clickhouse-server/config.xml'
+      - './config/ck-cluster.xml:/etc/clickhouse-server/ck-cluster.xml'
+      - './server2/log:/var/log'
+      - './server2/config.d/macros-ck-cluster.xml:/etc/clickhouse-server/config.d/macros-ck-cluster.xml'
+    networks:
+      redis-cluster-net:
+        ipv4_address: 192.168.200.252
+  ck3:
+    image: yandex/clickhouse-server
+    ports:
+      - "8125:8123"
+      - "9002:9000"
+      - "9011:9009"
+    depends_on:
+      - zoo1
+      - zoo2
+      - zoo3
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+      - './server3/.clickhouse-data/db:/var/lib/clickhouse/'
+      - './config/users.xml:/etc/clickhouse-server/users.xml'
+      - './config/config.xml:/etc/clickhouse-server/config.xml'
+      - './config/ck-cluster.xml:/etc/clickhouse-server/ck-cluster.xml'
+      - './server3/log:/var/log'
+      - './server3/config.d/macros-ck-cluster.xml:/etc/clickhouse-server/config.d/macros-ck-cluster.xml'
+    networks:
+      redis-cluster-net:
+        ipv4_address: 192.168.200.253
+  ck4:
+    image: yandex/clickhouse-server
+    ports:
+      - "8126:8123"
+      - "9003:9000"
+      - "9012:9009"
+    depends_on:
+      - zoo1
+      - zoo2
+      - zoo3
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+      - './server4/.clickhouse-data/db:/var/lib/clickhouse/'
+      - './config/users.xml:/etc/clickhouse-server/users.xml'
+      - './config/config.xml:/etc/clickhouse-server/config.xml'
+      - './config/ck-cluster.xml:/etc/clickhouse-server/ck-cluster.xml'
+      - './server4/log:/var/log'
+      - './server4/config.d/macros-ck-cluster.xml:/etc/clickhouse-server/config.d/macros-ck-cluster.xml'
+    networks:
+      redis-cluster-net:
+        ipv4_address: 192.168.200.254

@@ -64,6 +64,10 @@ docker unpause
 强制终止一个容器:
 docker kill
 
+查看容器日誌
+docker logs -f [容器ID或容器名称]
+
+
 --------管理鏡像：
 列出本地鏡像:
 docker images
