@@ -1,18 +1,18 @@
 
-查詢安裝路徑
-which docker
+-----------安裝相關-------------
 
 更新update
 apt-get update
+
+查詢安裝路徑
+which docker
 
 安裝vim
 apt-get install vim
 
 
-
 安装OpenJDK 8
 sudo apt install openjdk-8-jdk
-
 设置环境变量:
 编辑/etc/environment文件：
 sudo vim /etc/environment
@@ -24,10 +24,31 @@ source /etc/environment
 echo $JAVA_HOME
 
 
+安裝最新的 OpenJDK 版本：
+sudo apt install default-jdk -y
+java -version
+
+
+安裝maven:
+sudo apt install maven
+設定環境變數:
+sudo vim /etc/profile.d/maven.sh
+將以下行加入maven.sh檔案：
+export JAVA_HOME=/usr/lib/jvm/default-java
+export M2_HOME=/opt/maven
+export MAVEN_HOME=/opt/maven
+export PATH=${M2_HOME}/bin:${PATH}
+使用chmod 指令使maven.sh檔可執行：
+sudo chmod +x /etc/profile.d/maven.sh
+使用source指令執行maven.sh腳本檔來設定新的環境變數：
+source /etc/profile.d/maven.sh
+mvn -version
+
 
 安装Git:
 sudo apt install git
 
+-----------指令-------------
 
 
 查看進程
