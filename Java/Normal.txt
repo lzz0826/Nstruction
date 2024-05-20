@@ -8,3 +8,6 @@
 包裝類（Wrapper classes）：例如 Integer、Double、Boolean 等
 集合類（Collection classes）：例如 List、Set、Map 等
 其他自定義類型（Custom-defined types）：由開發者定義的類型
+
+啟動java:
+java -jar jenkins.war -8080
