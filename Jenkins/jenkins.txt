@@ -1,0 +1,48 @@
+
+maven:
+tar zxvf apache-maven-3.9.6-bin.tar.gz
+mv apache-maven-3.9.6 /usr/local/maven
+/usr/local/maven/bin/mvn
+
+
+使用插件
+Maven Integration
+Publish Over SSH
+Build Authorization Token Root
+
+
+----jenkins網頁上 配置-----
+Source files(根據專案目錄包含打包後的專案目錄):
+**/java*.jar
+
+Exec command:
+nohup java -jar /root/java-server/java*.jar > my.log 2>&1 &
+
+Sh腳本:
+
+vim x.sh
+chmod 777 x.sh
+./x.sh
+
+執行腳本: 帶參數
+./x.sh java-gitlab
+
+
+
+在docker容器中中執行 java 自動部署
+
+使用目錄掛載:
+docker run -d -p 8090:8090 --name javademo -v /root/java-server/java-gitlab-1.0-SNAPSHOT.jar:/app.jar openjdk:8 java -jar app.jar
+
+使用docker file 製作鏡像:
+Exec command:
+rm -rf *
+docker stop javademo
+docker rm javademo
+docker rmi javademo
+
+建置後動作:
+docker build -t javademo .
+docker run -d -p 8090:8090 --name javademo javademo
+
+

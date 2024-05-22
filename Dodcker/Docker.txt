@@ -11,6 +11,10 @@ sudo service docker stop
 系统启动时禁用 Docker :
 sudo systemctl disable docker
 
+docker system df
+
+docker info
+
 
 -------管理容器：
 

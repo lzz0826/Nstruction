@@ -10,6 +10,8 @@ which docker
 安裝vim
 apt-get install vim
 
+安裝docker
+https://docs.docker.com/engine/install/ubuntu/
 
 安装OpenJDK 8
 sudo apt install openjdk-8-jdk
@@ -114,5 +116,12 @@ rm example.txt
 删除目录及其内容
 rm -r directoryname
 
+尋找檔案
+find / -name prometheus.yml
 
+檢查硬碟空間:
+df -h
+
+显示文件系统的使用情况:
+df -hT
 
