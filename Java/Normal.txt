@@ -11,3 +11,6 @@
 
 啟動java:
 java -jar jenkins.war -8080
+
+查看已啟動的java服務
+jps
