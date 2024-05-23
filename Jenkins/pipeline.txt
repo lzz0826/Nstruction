@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+
+    tools {
+        maven "maven3"
+    }
+    stages {
+        stage('拉取代碼') {
+            steps {
+                git branch: 'main', url: 'http://192.168.100.101:8929/root/java-gitlab.git'
+                echo '拉取成功'
+            }
+        }
+
+        stage('執行構建') {
+            steps {
+            //    sh "mvn --version"
+                sh """
+                cd javademo
+
+                mvn clean package
+                """
+                echo '構建完成'
+            }
+        }
+
+
+            stage('clean javademo server') {
+            steps {
+
+         sshPublisher(publishers: [sshPublisherDesc(configName: 'java server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '''rm -rf *
+docker stop javademo
+docker rm javademo
+docker rmi javademo''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '/root')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+
+                echo '清理成功'
+            }
+        }
+
+
+
+        stage('發送jar包到測試服務器') {
+            steps {
+
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'java server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: 'java-server', remoteDirectorySDF: false, removePrefix: '/target', sourceFiles: '**/java*.jar')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false), sshPublisherDesc(configName: 'java server', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '''docker build -t javademo .
+docker run -d -p 8090:8090 --name javademo javademo''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/', remoteDirectorySDF: false, removePrefix: '/target', sourceFiles: '/docker/Dockerfile')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+
+                echo 'jar send over!'
+            }
+        }
+    }
+}

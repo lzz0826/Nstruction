@@ -9,6 +9,8 @@ mv apache-maven-3.9.6 /usr/local/maven
 Maven Integration
 Publish Over SSH
 Build Authorization Token Root
+Blue Ocean
+
 
 
 ----jenkins網頁上 配置-----
