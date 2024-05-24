@@ -1,0 +1,99 @@
+
+安裝 multipass ubuntu 虛擬機
+brew install --cask multipass
+
+multipass delete 刪除機器
+
+multipass exec 在機器中執行命令
+
+multipass find 列出可以安裝 ubuntu 版本 image
+
+multipass get 獲取配置資訊
+
+multipass help 查看幫助
+
+multipass info 查看機器信息
+
+multipass launch 創建並啟動機器
+
+multipass list 列出所有機器
+
+multipass mount 掛載文件夾到機器
+
+multipass purge 清除已刪除的機器
+
+multipass recover 恢復已刪除的機器
+
+multipass restart 重啟機器
+
+multipass set 設置某個配置
+
+multipass shell 通過 shell 連接機器
+
+multipass start 啟動機器
+
+multipass stop 停止機器
+
+multipass suspend 暫停機器
+
+multipass transfer 在本機和機器之間傳輸檔案或文件
+
+multipass umount 移除機器中掛載的文件夾
+
+multipass version 查看版本
+
+---------建立VM--------
+輸入指令建立 VM (版本 22.04, 2 個虛擬 CPU, 記憶體 2G 硬碟空間 20G): vm-name 改成自己想取的名稱
+multipass launch --name <vm-name> 22.04 --cpus 2 --memory 2G --disk 20G
+
+進入 VM
+multipass shell <vm-name>
+
+停止 vm
+multipass stop <vm-name>
+
+刪除 vm 並清除出空間
+multipass delete <vm-name>
+multipass purge
+
+---------對 VM 執行指定指令--------
+可以不用進去機器直接操作某個指令
+multipass exec <vm-name> -- <command>
+
+---------查看 VM 配置--------
+multipass get local.<vm-name>.cpus
+multipass get local.<vm-name>.disk
+multipass get local.<vm-name>.memory
+
+---------修改 VM 配置--------
+可以用指令修改機器資源配置 (需先停止機器)
+multipass stop <vm-name>
+multipass set local.<vm-name>.cpus=4
+multipass set local.<vm-name>.disk=60G
+multipass set local.<vm-name>.memory=7G
+
+---------從 VM 與 local 之間複製檔案--------
+multipass transfer <local-path> <vm-name>:.
+multipass transfer <vm-name>:<vm-path> .
+
+---------mount 資料夾到 VM 上--------
+mount 路徑到 VM 上
+multipass mount <local-path> <vm-name>:<vm-path>
+
+解除 mount
+multipass umount <vm-name>:<vm-path>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

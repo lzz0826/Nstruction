@@ -64,3 +64,5 @@ curl -I http://192.168.100.101/img/logo.png
 
 使用curl連接帶引用
 curl -e "http://baidu.com" -I http://192.168.100.101/img/logo.png
+
+
