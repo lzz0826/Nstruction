@@ -66,3 +66,46 @@ curl -I http://192.168.100.101/img/logo.png
 curl -e "http://baidu.com" -I http://192.168.100.101/img/logo.png
 
 
+-----------安裝 python ---------
+安装 pyenv：
+brew update
+brew install pyenv
+
+设置 pyenv：
+在你的 shell 配置文件（例如 .zshrc 或 .bash_profile）中添加以下内容：
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
+echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
+echo 'eval "$(pyenv init --path)"' >> ~/.zshrc
+echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+
+source ~/.zshrc  # 如果你使用的是 zsh
+source ~/.bash_profile  # 如果你使用的是 bash
+
+列出可用的 Python 版本：
+pyenv install --list
+
+使用 pyenv 安装所需的 Python 版本：
+pyenv install 2.7.18  # 安装 Python 2
+pyenv install 3.9.6   # 安装 Python 3
+
+查看已安装的 Python 版本：
+pyenv versions
+
+设置全局 Python 版本：
+pyenv global 3.9.6
+
+卸载某个 Python 版本：
+pyenv uninstall 2.7.18
+
+切换 Python 版本：
+pyenv global 2.7.18
+pyenv global 3.9.6
+
+python --version
+
+查看当前使用的 Python 版本路径：
+pyenv which python
+
+为特定项目设置 Python 版本：
+cd your_project_directory
+pyenv local 2.7.18
