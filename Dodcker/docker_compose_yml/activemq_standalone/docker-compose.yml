@@ -1,0 +1,26 @@
+version: '3'
+networks:
+    redis-cluster-net:
+        external:
+            name: redis-cluster-net
+
+services:
+  activemq:
+    image: rmohr/activemq
+    container_name: activemq
+    ports:
+      - "61616:61616" # JMS port
+      - "8161:8161"   # Web Console port
+    volumes:
+      - ./data:/data/activemq # 数据持久化目录，用于存储 ActiveMQ 数据
+      - ./data/var/log/activemq:/var/log/activemq
+      # - ./activemq/activemq.xml:/conf/activemq.xml # 自定义配置文件挂载
+
+    environment:
+      ACTIVEMQ_CONFIG_NAME: myconfig
+      ACTIVEMQ_CONFIG_DEFAULTACCOUNT: false
+      ACTIVEMQ_ADMIN_LOGIN: admin
+      ACTIVEMQ_ADMIN_PASSWORD: admin
+    networks:
+      redis-cluster-net:
+        ipv4_address: 192.168.200.61
