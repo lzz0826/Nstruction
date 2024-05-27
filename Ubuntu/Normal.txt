@@ -80,7 +80,7 @@ ip a
 
 网路工具包
 apt-get install -y iputils-ping
-
+ping -c 5 192.168.64.2
 
 查看某檔案MD5
 md5 7ee5d6171a0d9e57370d58730c94e5d5.png.zip
@@ -125,3 +125,11 @@ df -h
 显示文件系统的使用情况:
 df -hT
 
+ufw增加白名單：
+sudo ufw allow from IP
+
+禁止IP：
+sudo ufw deny from IP
+
+移除黑名單：
+ufw delete deny from 192.168.3.99

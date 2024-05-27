@@ -60,7 +60,7 @@ chmod -R 777 elasticsearch
 
 使用curl連接
 curl -I http://192.168.100.101/img/logo.png
-
+curl -k https://192.168.64.2:6443
 
 使用curl連接帶引用
 curl -e "http://baidu.com" -I http://192.168.100.101/img/logo.png

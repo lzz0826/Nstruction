@@ -1,0 +1,56 @@
+
+安裝nginx:
+sudo apt update && sudo apt install nginx
+
+設置防火牆（Configure Firewall:
+sudo ufw app list
+
+Output
+Available applications:
+  Nginx Full
+  Nginx HTTP
+  Nginx HTTPS
+  OpenSSH
+ 如輸出所示，Nginx 有三個可用的配置檔案：
+  Nginx Full：這個配置開啟了 80 號埠口（普通、未加密的網頁流量）和 443 號埠口（TLS/SSL 加密流量）
+  Nginx HTTP：這個配置僅開啟 80 號埠口（普通、未加密的網頁流量）
+  Nginx HTTPS：這個配置僅開啟 443 號埠口（TLS/SSL 加密流量）
+
+sudo ufw allow OpenSSH
+sudo ufw allow 'Nginx HTTP'
+sudo ufw enable
+sudo ufw status
+
+檢查服務是否正在運行:
+systemctl status nginx
+
+要停止網頁伺服器:
+sudo systemctl stop nginx
+
+重新啟動:
+sudo systemctl start nginx
+
+先停止再重新啟動服務:
+sudo systemctl restart nginx
+
+如果你只是在進行設定更改，通常 Nginx 可以在不斷開連線的情況下重新載入:
+sudo systemctl reload nginx
+
+取消啟動時自動啟動:
+sudo systemctl disable nginx
+
+啟用服務在開機時自動啟動:
+sudo systemctl enable nginx
+
+
+伺服器配置
+/etc/nginx：Nginx 的配置目錄。所有的 Nginx 配置檔案都位於這裡。
+/etc/nginx/nginx.conf：主要的 Nginx 配置檔案。這個檔案可以修改，用來變更 Nginx 的全域配置。
+/etc/nginx/sites-available/：這個目錄可以儲存每個網站的伺服器區塊配置。除非這些配置檔案連結到了 sites-enabled 目錄，Nginx 不會使用這個目錄下的配置檔案。通常，所有伺服器區塊的配置都在這個目錄中完成，然後透過連結到其他目錄來啟用。
+/etc/nginx/sites-enabled/：這個目錄儲存已啟用的每個網站伺服器區塊。通常，這些配置是通過連結到 sites-available 目錄中的檔案來創建的。
+/etc/nginx/snippets：這個目錄包含可以在其他 Nginx 配置中引用的配置片段。可能需要重複使用的配置段落適合重構為 snippets。
+
+
+伺服器記錄
+/var/log/nginx/access.log：每一個對你的網頁伺服器的請求都會被記錄在這個日誌檔案中，除非 Nginx 配置為不這麼做。
+/var/log/nginx/error.log：任何 Nginx 的錯誤都會被記錄在這個日誌中。
