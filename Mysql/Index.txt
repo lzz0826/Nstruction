@@ -1,0 +1,63 @@
+
+
+查看當前stduent_info表中的索引
+SHOW INDEX FROM student_info;
+
+給student_id字段添加索引
+ALTER TABLE student_info ADD INDEX idx_sid(student_id);
+
+添加聯合索引 (create_time DESC 排序在8.0才會生效)
+ALTER TABLE student_info
+ADD INDEX idx_sid_cre_time(student_id,create_time DESC);
+
+添加前綴索引:
+alter table shop add index(address(12))
+
+刪除idx_sid索引
+DROP INDEX idx_sid ON student_info;
+
+
+
+------- 哪些情況適合創建索引 -------
+1. 字段的數值有唯一性的限制 (業務上具有唯一特性的自段 即使是組合字段 也必須建成唯一索引)
+2. 頻繁作為 WHERE 查詢條件的字段
+3. 經常 GROUP BY 和 ORDER BY 的列
+4. UPDATE、DELETE 的 WHERE 條件列
+5. DISTINCT 字段需要創建索引
+
+6. #### 多表 JOIN 連接操作時，創建索引注意事項
+首先 連接表數量境量不超過3張
+其次 對WHERE 條件 創建索引
+最後 對用於連接的字段創建索引(類型必須一致)
+
+7. 使用列的類型小的創建索引
+
+8. 使用字符串前綴創建索引 (使用索引前綴 無法支持使用索引排序 ORDER BY 會不準)
+在 varchar 字段上建立索引時 必須指定索引長度 沒必要對全字段建立索引 根據實際文本區決定索引長度
+公式:count(distinct left(列名,索引長度))/count(*) 越接近1越好
+例如:
+select count(distinct left(address,10)) / count(*) as sub10 -- 擷取前10字符搭選擇度
+count(distinct left(address,15)) / count(*) as sub11 -- 擷取前15字符搭選擇度
+count(distinct left(address,20)) / count(*) as sub12 -- 擷取前20字符搭選擇度
+count(distinct left(address,25)) / count(*) as sub13 -- 擷取前25字符搭選擇度
+from shop;
+
+9. 區分度高(散列性高)的列適合作為索引
+可使用公式: 計算分區度 越接近1越好 一般超過 33% 就算比較高效的索引
+select count(distinct a)/count(*) from t1
+
+10. 使用最頻繁的列放到聯合索引的左側
+
+補充：在多個字段都要創建索引的情況下，聯合索引優於單值索引
+     單表不超過6個
+
+
+-------  哪些情況不適合創建索引 -------
+1. 在WHERE(包括 GROUP BY , ORDER BY)中使用不到的字段，不要設置索引
+2. 數據量小的表最好不要使用索引
+3. 有大量重複數據的列上不要建立索引
+結論：當數據重複度大，比如`高於 10% `的時候，也不需要對這個字段使用索引。
+4. 避免對經常更新的表創建過多的索引
+5. 不建議用無序的值作為索引
+6. 刪除不再使用或者很少使用的索引
+7. 不要定義冗餘或重複的索引
