@@ -1,78 +1,104 @@
 
-查看当前会话的 SQL 模式:
+查看當前會話的 SQL 模式:
 SELECT @@sql_mode;
 
-设置当前会话的 SQL 模式:
+設置當前會話的 SQL 模式:
 SET @@sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 ------------------ SHOW ----------------
 
-查看当前正在执行的查询:
+查看當前正在執行的查詢:
 SHOW PROCESSLIST;
 
-查看MySQL本次启动后的运行时间(单位：秒):
+查看MySQL本次啟動后的運行時間(單位：秒):
 SHOW STATUS LIKE 'uptime';
 
-查看select语句的执行数:
-SHOW [GLOBAL] STATUS LIKE 'com_select';
+查看select語句的執行數:
+SHOW GLOBAL STATUS LIKE 'com_select';
 
-查看insert语句的执行数:
-SHOW [GLOBAL] STATUS LIKE 'com_insert';
+查看insert語句的執行數:
+SHOW GLOBAL STATUS LIKE 'com_insert';
 
-查看update语句的执行数:
-SHOW [GLOBAL] STATUS LIKE 'com_update';
+查看update語句的執行數:
+SHOW GLOBAL STATUS LIKE 'com_update';
 
-查看delete语句的执行数:
-SHOW [GLOBAL] STATUS LIKE 'com_delete';
+查看delete語句的執行數:
+SHOW GLOBAL STATUS LIKE 'com_delete';
 
-查看试图连接到MySQL的连接数:
+查看試圖連接到MySQL的連接數:
 SHOW STATUS LIKE 'connections';
 
-查看线程缓存内的线程的数量:
+查看線程緩存內的線程的數量:
 SHOW STATUS LIKE 'threads_cached';
 
-查看当前打开的连接的数量:
+查看當前打開的連接的數量:
 SHOW STATUS LIKE 'threads_connected';
 
-查看创建用来处理连接的线程数:
+查看創建用來處理連接的線程數:
 SHOW STATUS LIKE 'threads_created';
 
-查看激活的线程数:
+查看激活的線程數:
 SHOW STATUS LIKE 'threads_running';
 
-查看立即获得的表的锁的次数:
+查看立即獲得的表的鎖的次數:
 SHOW STATUS LIKE 'table_locks_immediate';
 
-查看不能立即获得的表的锁的次数:
+查看不能立即獲得的表的鎖的次數:
 SHOW STATUS LIKE 'table_locks_waited';
 
-查看创建时间超过slow_launch_time秒的线程数:
+查看創建時間超過slow_launch_time秒的線程數:
 SHOW STATUS LIKE 'slow_launch_threads';
 
-查看查询时间超过long_query_time秒的查询的个数:
+查看查詢時間超過long_query_time秒的查詢的個數:
 SHOW STATUS LIKE 'slow_queries';
 
+查看與 InnoDB 行操作相關的狀態變量:
+SHOW STATUS LIKE 'innodb_rows_%';
 
-------------------启用慢查询日志-----------------
-编辑 MySQL 配置文件（通常是 my.cnf 或 my.ini），添加或修改以下参数：
+查看與 MySQL 上一次查詢相關的成本:
+SHOW STATUS LIKE 'last_query_cost';
+
+查詢慢查詢日誌
+SHOW global status LIKE '%Slow_queries%';
+
+
+------------------啟用慢查詢日誌 重啟就沒了-----------------
+
+-- 查看是否启用了慢查询日志
+SHOW global variables LIKE '%slow%';
+SHOW VARIABLES LIKE 'slow_query_log';
+SHOW VARIABLES LIKE 'slow_query_log%';
+
+-- 全局启用慢查询日志
+set global slow_query_log = on;
+
+-- 查看当前的慢查询时间阈值（以秒为单位）
+SHOW VARIABLES LIKE '%long_query_time%';
+
+-- 设置慢查询时间阈值为 1 秒
+set global long_query_time = 1;
+set long_query_time = 1;
+
+-- 全局關閉慢查询日志
+set global slow_query_log = 'off';
+
+------------------啟用慢查詢日誌 永久方式-----------------
+
+
+編輯 MySQL 配置文件（通常是 my.cnf 或 my.ini），添加或修改以下參數：
 [mysqld]
-slow_query_log = 1
-slow_query_log_file = /path/to/your/mysql-slow.log
-long_query_time = 2  # 记录执行时间超过2秒的查询
+slow_query_log = NO #開啟慢查詢日誌
+slow_query_log_file = /var/lib/mysql-slow.log #慢查詢日誌目錄和文件訊息
+long_query_time = 2  # 記錄執行時間超過2秒的查詢
+log_output=FILE
 
-重新启动 MySQL 服务以使配置生效：
+重新啟動 MySQL 服務以使配置生效：
 sudo service mysql restart
 
-如果慢查询日志已启用，你可以直接查看日志文件。使用以下命令查看最新的慢查询：
+如果慢查詢日誌已啟用，你可以直接查看日誌文件。使用以下命令查看最新的慢查詢：
 tail -n 100 /path/to/your/mysql-slow.log
 
-或者你可以使用 mysqldumpslow 工具来汇总慢查询日志的内容：
-mysqldumpslow -s c -t 10 /path/to/your/mysql-slow.log
 
-在不重启 MySQL 服务的情况下动态启用或禁用慢查询日志：
-SET GLOBAL slow_query_log = 'ON';
-SET GLOBAL slow_query_log_file = '/path/to/your/mysql-slow.log';
-SET GLOBAL long_query_time = 2;
-
+slow_query_log = OFF #關閉慢查詢日誌
 
 

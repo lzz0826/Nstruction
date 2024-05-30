@@ -1,0 +1,5 @@
+mysqldumpslow -help
+
+查看慢查詢日誌
+mysqldumpslow -a -s t -t 5 /var/lib/mysql/fe7ed45dc7c1-slow.log
+
