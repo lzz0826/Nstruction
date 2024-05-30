@@ -34,7 +34,7 @@ EXPLAIN SELECT * FROM student_info;
     unique_subquery: 表示對於子查詢的唯一索引查找。
     index_subquery: 表示對於子查詢的索引查找。
     range: 檢索指定範圍的行，使用一個索引來選擇行。
-    index: 可以使用索引覆蓋 但需要掃描全部的索引紀錄時(要查的字段和條件剛好都在聯合索引內)。
+    index: 可以使用覆盖索引 但需要掃描全部的索引紀錄時(要查的字段和條件剛好都在聯合索引內)。
     ALL: 全表掃描。
 6.possible_keys: 查詢中可能使用的索引。
 7.key: 實際使用的索引。如果沒有使用索引，該列显示 NULL。
