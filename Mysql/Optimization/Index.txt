@@ -1,6 +1,6 @@
 
 
-查看當前stduent_info表中的索引
+查看當前student_info表中的索引
 SHOW INDEX FROM student_info;
 
 給student_id字段添加索引
