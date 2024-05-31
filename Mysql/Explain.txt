@@ -34,16 +34,30 @@ EXPLAIN SELECT * FROM student_info;
     unique_subquery: 表示對於子查詢的唯一索引查找。
     index_subquery: 表示對於子查詢的索引查找。
     range: 檢索指定範圍的行，使用一個索引來選擇行 (此為最低要求)。
-    index: 可以使用覆盖索引 但需要掃描全部的索引紀錄時(要查的字段和條件剛好都在聯合索引內)。
+    index: 可以使用覆蓋索引 但需要掃描全部的索引紀錄時(要查的字段和條件剛好都在聯合索引內)。
     ALL: 全表掃描。
 6.possible_keys: 查詢中可能使用的索引。
 7.key: 實際使用的索引。如果沒有使用索引，該列显示 NULL。
 8.*key_len: 實際使用到的索引長度(字節) 檢查是否充分利用上索引 越大越好(主要針對聯合索引有參考的意義)。
 9.ref: 显示列與索引的比較。
-10.*rows: MySQL 估計要讀取的行數。這是一個粗略的估計，用於評估查詢的開銷。
-11.filtered: 表示查詢條件過濾了多少百分比的行。
+10.*rows: MySQL 估計要讀取的行數。這是一個粗略的估計，用於評估查詢的開銷 越小越好。
+11.filtered: 表示查詢條件過濾了多少百分比的行 越高越好。
 12.*Extra: 額外的信息。有很多可能的值，例如：
-    Using where: MySQL 服務器在存儲引擎檢索行后再進行過濾。
-    Using index: MySQL 使用覆蓋索引（只從索引中讀取信息，而不是表數據）。
-    Using temporary: MySQL 使用臨時表保存結果。
-    Using filesort: MySQL 使用外部文件來排序結果，而不是通過索引。
+    *(優秀)Using index：MySQL 使用覆蓋索引（只從索引中讀取信息，而不是表數據），覆蓋索引：不用回表操作。
+    Using where：MySQL 服務器在存儲引擎檢索行后再進行過濾。
+    Distinct：MySQL 優化器發現需要執行 DISTINCT 操作以刪除重複行。
+    Using index condition：MySQL 通過索引條件下推（Index Condition Pushdown, ICP）來優化查詢，從而減少需要讀取的行數。
+    Using join buffer：MySQL 使用連接緩衝區來處理連接操作，通常出現在沒有適當索引的連接操作中。
+    Using MRR：多範圍讀取（Multi-Range Read），MySQL 使用 MRR 優化來讀取數據，從而減少隨機 I/O 操作。
+    Using intersect(...)：MySQL 使用索引交集來優化查詢。
+    Using union(...)：MySQL 使用索引並集來優化查詢。
+    Using sort_union(...)：MySQL 使用排序並集來優化查詢。
+    Using sort_intersect(...)：MySQL 使用排序交集來優化查詢。
+    Using sort_merge(...)：MySQL 使用排序合併來優化查詢。
+    *(避免)Using temporary：MySQL 使用臨時表保存結果。
+    *(避免)Using filesort：MySQL 使用外部文件來排序結果，而不是通過索引。這表示查詢需要額外的排序步驟，可能會影響性能。
+    Range checked for each record (index map: N)：沒有找到合適的索引，MySQL 將對每一行進行索引範圍檢查。
+    Full scan on NULL key：查詢在沒有適當索引的情況下進行全表掃描。
+    Impossible WHERE noticed after reading const tables：查詢包含一個永遠為假的 WHERE 條件，因此不會返回任何行。
+    No tables used：查詢不涉及任何錶。通常出現在計算表達式或系統變量的查詢中。
+    Select tables optimized away：優化器在執行查詢時發現可以通過優化避免訪問表，通常出現在 COUNT(*) 查詢中。
