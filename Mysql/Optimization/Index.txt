@@ -6,7 +6,7 @@ SHOW INDEX FROM student_info;
 給student_id字段添加索引
 ALTER TABLE student_info ADD INDEX idx_sid(student_id);
 
-添加聯合索引 (create_time DESC 排序在8.0才會生效)
+添加聯合索引 ( DESC 排序在8.0才會生效)
 ALTER TABLE student_info
 ADD INDEX idx_sid_cre_time(student_id,create_time DESC);
 
@@ -61,3 +61,61 @@ select count(distinct a)/count(*) from t1
 5. 不建議用無序的值作為索引
 6. 刪除不再使用或者很少使用的索引
 7. 不要定義冗餘或重複的索引
+
+
+-------  索引失效 -------
+
+使用函數或表達式操作索引列：
+  當在 WHERE 子句中對索引列使用函數或進行計算操作時，索引將失效。例如：
+  SELECT * FROM users WHERE YEAR(birth_date) = 1990;
+
+模糊查詢中的通配符位置：
+  在使用 LIKE 模糊查詢時，如果通配符（%）出現在字符串的開頭，索引會失效。例如：
+  SELECT * FROM users WHERE name LIKE '%John';
+  [強制] 頁面收索嚴禁左模糊或全模糊 如有需要走收索引擎解決
+
+OR 條件：
+  如果 WHERE 子句中包含 OR 條件，而 OR 前後存在非索引的列，索引將失效。例如：
+  SELECT * FROM users WHERE first_name = 'John' OR last_name = 'Doe';
+  可以考慮將 OR 條件拆分成多個獨立的查詢，然後使用 UNION 來合併結果。
+
+
+不等號操作：
+  當在 WHERE 子句中使用不等號（!= 或 <>）時，索引將失效。例如：
+  SELECT * FROM users WHERE age != 30;
+
+範圍條件之後的列：
+  當在複合索引中使用範圍條件（例如 BETWEEN、<、>、IN）時，範圍條件後的索引列將失效。例如：
+  SELECT * FROM users WHERE age > 30 AND name = 'John';
+  在這個例子中，假設有一個複合索引 (age, name)，則 name 列的索引可能會失效。
+  經額 日期查詢 往往都是範圍 應將查詢條件放置where最後(聯合索引創建時 務必把範圍涉及到的字段放最後 sql語句會被優化器重排)
+
+隱式類型轉換：
+  當索引列和查詢條件的數據類型不一致時，可能會發生隱式類型轉換，導致索引失效。例如：
+  SELECT * FROM users WHERE phone_number = 1234567890;
+  如果 phone_number 是 VARCHAR 類型而查詢條件是數字類型，則索引將失效。
+
+IS NULL 可以使用索引 IS NOT NULL 不能使用：
+  在某些情況下，使用 IS NULL 或 IS NOT NULL 會導致索引失效。例如：
+  SELECT * FROM users WHERE middle_name IS NOT NULL;
+
+未包含在索引中的列：
+  如果查詢中的條件列沒有索引，自然會導致索引失效。例如：
+  SELECT * FROM users WHERE address = 'New York';
+  如果 address 列沒有索引，查詢將執行全表掃描。
+
+數據庫和表的字符集統一使用utf8mb4
+  不同的字符集進行比較前需要進行轉換會造成索引失效
+
+數據庫統計信息不準確：
+  當數據庫統計信息過時或不準確時，MySQL 優化器可能會做出錯誤的決定，不使用可用的索引。可以通過 ANALYZE TABLE 命令更新統計信息。
+
+  ---------- 一般建議 ----------
+
+  單列索引
+    盡量選擇針對當前query過濾性更好的索引
+
+  組合索引
+    當前query中過濾性最好的字段在索引字段順序中 位置越靠前越好
+    竟量選擇能夠包含當前query中的where子句中更多字段的索引
+    如果某個字段可能出現吠完查詢時 竟量把這字段放在索引次序最後面
