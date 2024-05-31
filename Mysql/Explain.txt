@@ -2,8 +2,21 @@
 EXPLAIN 分析查詢語句:
 EXPLAIN SELECT * FROM student_info;
 
-在使用索引時用到函數(包含隱式函數 例:VARCHAR 轉 INT) 索引就不會生效
+使用 json 格式呈現(更詳細):
+explain format = json
 
+read_cost:
+IO成本
+檢測rows x (1 - filter) 條紀錄的CPU成本
+
+eval_cost:
+檢測rows x filter條紀錄的、成本
+
+prefix_cost:
+總成本
+
+
+在使用索引時用到函數(包含隱式函數 例:VARCHAR 轉 INT) 索引就不會生效
 +----+-------------+--------------+--------------+-------+---------------+---------+---------+------+------+----------+-------------+
 | id | select_type | table        | partitions   | type  | possible_keys | key     | key_len | ref  | rows | filtered | Extra       |
 +----+-------------+--------------+--------------+-------+---------------+---------+---------+------+------+----------+-------------+
@@ -61,3 +74,65 @@ EXPLAIN SELECT * FROM student_info;
     Impossible WHERE noticed after reading const tables：查詢包含一個永遠為假的 WHERE 條件，因此不會返回任何行。
     No tables used：查詢不涉及任何錶。通常出現在計算表達式或系統變量的查詢中。
     Select tables optimized away：優化器在執行查詢時發現可以通過優化避免訪問表，通常出現在 COUNT(*) 查詢中。
+
+--------條優 (**注意 在使用sys或performance_schema information_schema 會消耗大量資源 可能導致業務請求被阻塞)----------------
+-------索引相關-------
+
+顯示最近一條 SQL 语句执行后产生的所有警告、错误和通知信息
+SHOW WARNINGS;
+
+查看 MySQL 查询优化器的跟踪信息
+SELECT * FROM information_schema.optimizer_trace;
+
+
+查詢冗餘索引
+select * from sys.schema_redundant_indexes ;
+
+查詢未使用過的索引
+select * from sys.schema_unused_indexes ;
+
+查詢索引的使用狀況
+select index_name,rows_selected,rows_inserted,rows_updated,rows_deleted
+from sys.schema_index_statistics where table_schema = 'dbname'
+
+-------表相關-------
+
+查詢表的訪問量
+select table_schema,table_name,sum(io_read_requests + io_write_requests) as io
+from sys.schema_table_statistics
+group by table_schema,table_name
+order by io desc ;
+
+查詢佔用bufferpool較多的表
+select object_schema,object_name,allocated,data
+from sys.innodb_buffer_stats_by_table order by allocated limit 10;
+
+查看表的全表掃描狀況
+select * from sys.statements_with_full_table_scans where db = 'dbname'
+
+-------語句相關-------
+
+監控SQL執行的頻率
+select db,exec_count,query from sys.statement_analysis
+order by exec_count desc ;
+
+監控使用了排序的SQL
+SELECT db, exec_count, first_seen, last_seen, query
+FROM sys.statements_with_sorting
+LIMIT 1;
+
+監控使用了臨時表或磁盤臨時表的SQL
+select db,exec_count,tmp_tables,tmp_disk_tables,query
+from sys.statement_analysis where tmp_tables>0 or tmp_disk_tables > 0
+order by (tmp_tables+tmp_disk_tables) desc ;
+
+-------IO相關-------
+
+查看消耗磁盤IO的文件
+select file,avg_read,avg_write,avg_read+avg_write as avg_io
+from sys.io_global_by_file_by_bytes order by avg_read limit 10;
+
+-------Innodb相關-------
+
+行鎖阻塞情況
+select * from sys.innodb_lock_waits
