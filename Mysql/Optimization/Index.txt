@@ -20,8 +20,8 @@ DROP INDEX idx_sid ON student_info;
 
 ------- 哪些情況適合創建索引 -------
 1. 字段的數值有唯一性的限制 (業務上具有唯一特性的自段 即使是組合字段 也必須建成唯一索引)
-2. 頻繁作為 WHERE 查詢條件的字段
-3. 經常 GROUP BY 和 ORDER BY 的列
+2. 頻繁作為 WHERE 查詢條件的字段 (避免全表掃描)
+3. 經常 GROUP BY 和 ORDER BY 的列 (避免FileSort)
 4. UPDATE、DELETE 的 WHERE 條件列
 5. DISTINCT 字段需要創建索引
 

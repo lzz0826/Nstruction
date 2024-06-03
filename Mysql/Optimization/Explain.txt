@@ -61,6 +61,8 @@ prefix_cost:
     Distinct：MySQL 優化器發現需要執行 DISTINCT 操作以刪除重複行。
     Using index condition：MySQL 通過索引條件下推（Index Condition Pushdown, ICP）來優化查詢，從而減少需要讀取的行數。
     Using join buffer：MySQL 使用連接緩衝區來處理連接操作，通常出現在沒有適當索引的連接操作中。
+        Simple Nested-Loop join :  在大表(數據量大的)加上索引
+        Block Nested-Loop Join:  調整 join_buffer_size 大小
     Using MRR：多範圍讀取（Multi-Range Read），MySQL 使用 MRR 優化來讀取數據，從而減少隨機 I/O 操作。
     Using intersect(...)：MySQL 使用索引交集來優化查詢。
     Using union(...)：MySQL 使用索引並集來優化查詢。
