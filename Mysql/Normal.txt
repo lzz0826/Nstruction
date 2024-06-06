@@ -5,6 +5,9 @@ SELECT @@sql_mode;
 設置當前會話的 SQL 模式:
 SET @@sql_mode = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
+查看默認隔離級別:
+select @@transaction_isolation;
+
 ------------------ SHOW ----------------
 
 查看當前正在執行的查詢:
