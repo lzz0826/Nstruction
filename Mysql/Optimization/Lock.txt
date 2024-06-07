@@ -1,0 +1,33 @@
+
+-- 對某行加共享鎖
+
+
+SELECT * FROM mytable WHERE id = 1 LOCK IN SHARE MODE;
+
+
+-- 對某行加排他鎖
+SELECT * FROM mytable WHERE id = 1 FOR UPDATE;
+
+
+對比共享鎖和排他鎖:
+特性	                共享鎖（S鎖）  	排他鎖（X鎖）
+允許讀操作	           是	          是
+允許寫操作	           否	          是
+允許其他事務加S鎖	       是	          否
+允許其他事務加X鎖	       否	          否
+應用場景	      多個事務只讀同一行數據	單個事務需要修改數據
+
+
+InnoDB會根據SQL指令自動選擇合適的鎖。以下是一些常見操作及其默認鎖定機制：
+
+查詢操作：
+普通的 SELECT 語句默認不會添加任何鎖，也就是說是非阻塞的讀取（Read-Uncommitted
+如果使用 SELECT ... FOR UPDATE 或 SELECT ... LOCK IN SHARE MODE，則會在讀取數據時加上行級鎖。FOR UPDATE 會加排他鎖（X鎖），而 LOCK IN SHARE MODE 則會加共享鎖（S鎖）。
+
+修改操作：
+INSERT、UPDATE、DELETE 等修改操作會默認加上行級排他鎖（X鎖），鎖定受影響的行。
+這意味着其他事務在同一行上的讀取或修改操作會被阻塞，直到持有鎖的事務釋放鎖為止。
+
+DDL操作：
+ALTER TABLE、DROP TABLE 等數據定義語言（DDL）操作會涉及表級鎖定。
+表級鎖會影響整個表的讀寫操作，因此在執行這些DDL操作時可能會阻塞其他對該表的操作，直到DDL操作完成。
