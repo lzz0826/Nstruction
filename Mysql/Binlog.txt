@@ -20,7 +20,8 @@ mysql> SHOW BINLOG EVENTS [IN 'log_name'] [FROM pos] [LIMIT [offset,] row_count]
     FROM pos：可选项，指定起始位置 pos，这是一个日志位置（Log Position），用于确定从哪个位置开始显示日志事件。如果不指定，默认从日志文件的开头开始。
     LIMIT [offset,] row_count：可选项，用于限制返回的日志事件数量。row_count 指定要返回的事件数，offset 指定从哪个位置开始返回事件（可选，默认为 0）。
 
-
+當前binlog文檔結束紀錄 使用新的binlog文檔
+mysql> flush logs;
 
 
 -----------------------config---------------------------------
