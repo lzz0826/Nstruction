@@ -1,4 +1,29 @@
 
+
+登入
+mysql -h 192.168.1.100 -P 3306 -u root -p
+
+显示所有數據庫：
+SHOW DATABASES;
+
+显示所有表：
+SHOW TABLES;
+
+查看錶結構：
+DESCRIBE 表名;
+
+創建用戶：
+CREATE USER '用戶名'@'主機' IDENTIFIED BY '密碼';
+
+授予權限：
+GRANT ALL PRIVILEGES ON *.* TO '用戶名'@'主機';
+
+刷新權限：
+FLUSH PRIVILEGES;
+
+查看當前使用的數據庫：
+SELECT DATABASE();
+
 查看當前會話的 SQL 模式:
 SELECT @@sql_mode;
 
@@ -67,22 +92,22 @@ SHOW global status LIKE '%Slow_queries%';
 
 ------------------啟用慢查詢日誌 重啟就沒了-----------------
 
--- 查看是否启用了慢查询日志
+-- 查看是否啟用了慢查詢日誌
 SHOW global variables LIKE '%slow%';
 SHOW VARIABLES LIKE 'slow_query_log';
 SHOW VARIABLES LIKE 'slow_query_log%';
 
--- 全局启用慢查询日志
+-- 全局啟用慢查詢日誌
 set global slow_query_log = on;
 
--- 查看当前的慢查询时间阈值（以秒为单位）
+-- 查看當前的慢查詢時間閾值（以秒為單位）
 SHOW VARIABLES LIKE '%long_query_time%';
 
--- 设置慢查询时间阈值为 1 秒
+-- 設置慢查詢時間閾值為 1 秒
 set global long_query_time = 1;
 set long_query_time = 1;
 
--- 全局關閉慢查询日志
+-- 全局關閉慢查詢日誌
 set global slow_query_log = 'off';
 
 ------------------啟用慢查詢日誌 永久方式-----------------

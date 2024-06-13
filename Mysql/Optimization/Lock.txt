@@ -6,6 +6,17 @@ SELECT * FROM mytable WHERE id = 1 LOCK IN SHARE MODE;
 SELECT * FROM mytable WHERE id = 1 FOR UPDATE;
 
 
+查看InnoDB行鎖相關狀態變量
+show status like 'innodb_row_lock%';
+
+Innodb_row_lock_current_waits：當前正在等待的行鎖的數量。
+Innodb_row_lock_time：自啟動以來行鎖的總等待時間，單位為毫秒。
+Innodb_row_lock_time_avg：每次等待行鎖的平均等待時間，單位為毫秒。
+Innodb_row_lock_time_max：等待行鎖的最長時間，單位為毫秒。
+Innodb_row_lock_waits：自啟動以來等待行鎖的總次數。
+
+
+
 
 -----------------------以下是一些關於行級鎖和索引的重要注意事項-----------------------：
 
@@ -17,8 +28,8 @@ SELECT * FROM mytable WHERE id = 1 FOR UPDATE;
 
 避免全表掃描：
 盡量避免在沒有索引支持的情況下進行全表掃描。全表掃描可能會導致表級鎖定或範圍鎖定
-在使用行级锁时，确保 WHERE 条件中涉及的字段有索引是至关重要的。如果没有索引，
-MySQL 可能会使用表锁或范围锁，而不是精确锁定指定的行，从而导致意外的锁定行为。
+在使用行級鎖時，確保 WHERE 條件中涉及的字段有索引是至關重要的。如果沒有索引，
+MySQL 可能會使用表鎖或範圍鎖，而不是精確鎖定指定的行，從而導致意外的鎖定行為。
 
 注意隱式鎖定：
 有些查詢可能會隱式地鎖定行，尤其是在事務中進行更新操作時。確保在需要的時候明確指定鎖定類型（如 FOR UPDATE 或 LOCK IN SHARE MODE）。
