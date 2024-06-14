@@ -34,4 +34,21 @@ max_binlog_size=300M
 
 ---------------------------------------------------------------
 
+使用binlog 數據恢復
+SHOW BINLOG EVENTS IN 'mysql-bin.000074'
 
+回復指令(需要在mysql安裝主機下執行)
+/usr/bin/mysqlbinlog --no-defaults --start-position=219 --stop-position=1030 --database=atguigudb3 /var/lib/mysql/mysql-bin.000077 | /usr/bin/mysql -uroot -p123456 -v atguigudb3
+
+/usr/bin/mysqlbinlog: 这是 MySQL 的命令行工具，用于读取和解析二进制日志文件。
+  --start-position=219: 从二进制日志文件的字节偏移量 219 开始读取。
+  --stop-position=1030: 读取到字节偏移量 1030 结束。
+  --database=atguigu3: 仅包含 atguigu3 数据库的事件。
+  /var/lib/mysql/binlog/mysql-bin.000077: 指定要读取的二进制日志文件的路径。
+  |（管道符）: 将 mysqlbinlog 的输出传递给 MySQL 客户端。
+
+/usr/bin/mysql -uroot -p123456 -v atguigu3:
+   -uroot: 使用 root 用户连接到 MySQL 服务器。
+   -p123456: 使用密码 123456 连接。
+   -v: 启用详细模式。
+   atguigu3: 连接到 atguigu3 数据库。
