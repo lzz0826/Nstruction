@@ -52,6 +52,10 @@ sudo apt install git
 
 -----------指令-------------
 
+查找關鍵字(grep查詢工具)
+grep "error" logfile.txt
+上下5行
+grep -C 5 "batch_insert_class_comments" atguigudb3_r_e.sql
 
 查看進程
 ps -ef | grep nginx

@@ -16,39 +16,51 @@ mysqlbinlog --no-defaults --base64-output=decode-rows -vv /var/lib/mysql/mysql-b
 事件查詢
 mysql> SHOW BINLOG EVENTS IN 'mysql-bin.000063' LIMIT 0, 10;
 mysql> SHOW BINLOG EVENTS [IN 'log_name'] [FROM pos] [LIMIT [offset,] row_count]
-    IN 'log_name'：可选项，指定要查看的特定二进制日志文件名。如果不指定，将显示当前正在使用的二进制日志文件的事件。
-    FROM pos：可选项，指定起始位置 pos，这是一个日志位置（Log Position），用于确定从哪个位置开始显示日志事件。如果不指定，默认从日志文件的开头开始。
-    LIMIT [offset,] row_count：可选项，用于限制返回的日志事件数量。row_count 指定要返回的事件数，offset 指定从哪个位置开始返回事件（可选，默认为 0）。
+    IN 'log_name'：可選項，指定要查看的特定二進制日誌文件名。如果不指定，將显示當前正在使用的二進制日誌文件的事件。
+    FROM pos：可選項，指定起始位置 pos，這是一個日誌位置（Log Position），用於確定從哪個位置開始显示日誌事件。如果不指定，默認從日誌文件的開頭開始。
+    LIMIT [offset,] row_count：可選項，用於限制返回的日誌事件數量。row_count 指定要返回的事件數，offset 指定從哪個位置開始返回事件（可選，默認為 0）。
 
 當前binlog文檔結束紀錄 使用新的binlog文檔
 mysql> flush logs;
 
+刪除某 binlog "之前" 的文件全刪
+purge master logs to 'mysql-bin.000075';
+
 
 -----------------------config---------------------------------
-# 启用二进制日志，并指定二进制日志文件的前缀
+# 啟用二進制日誌，並指定二進制日誌文件的前綴
 log-bin=tony-bin
-# 设置二进制日志的过期时间为,达到这个时间后将被自动删除。
+# 設置二進制日誌的過期時間為,達到這個時間后將被自動刪除。
 binlog_expire_logs_seconds=60000
-# 设置每个二进制日志文件的最大容量限制
+# 設置每個二進制日誌文件的最大容量限制
 max_binlog_size=300M
 
----------------------------------------------------------------
+-----------------使用binlog 數據恢復----------------------------------------------
 
-使用binlog 數據恢復
+使用Pos回復數據:
+
 SHOW BINLOG EVENTS IN 'mysql-bin.000074'
 
 回復指令(需要在mysql安裝主機下執行)
 /usr/bin/mysqlbinlog --no-defaults --start-position=219 --stop-position=1030 --database=atguigudb3 /var/lib/mysql/mysql-bin.000077 | /usr/bin/mysql -uroot -p123456 -v atguigudb3
 
-/usr/bin/mysqlbinlog: 这是 MySQL 的命令行工具，用于读取和解析二进制日志文件。
-  --start-position=219: 从二进制日志文件的字节偏移量 219 开始读取。
-  --stop-position=1030: 读取到字节偏移量 1030 结束。
-  --database=atguigu3: 仅包含 atguigu3 数据库的事件。
-  /var/lib/mysql/binlog/mysql-bin.000077: 指定要读取的二进制日志文件的路径。
-  |（管道符）: 将 mysqlbinlog 的输出传递给 MySQL 客户端。
+/usr/bin/mysqlbinlog: 這是 MySQL 的命令行工具，用於讀取和解析二進制日誌文件。
+  --start-position=219: 從二進制日誌文件的字節偏移量 219 開始讀取。
+  --stop-position=1030: 讀取到字節偏移量 1030 結束。
+  --database=atguigu3: 僅包含 atguigu3 數據庫的事件。
+  /var/lib/mysql/binlog/mysql-bin.000077: 指定要讀取的二進制日誌文件的路徑。
+  |（管道符）: 將 mysqlbinlog 的輸出傳遞給 MySQL 客戶端。
 
 /usr/bin/mysql -uroot -p123456 -v atguigu3:
-   -uroot: 使用 root 用户连接到 MySQL 服务器。
-   -p123456: 使用密码 123456 连接。
-   -v: 启用详细模式。
-   atguigu3: 连接到 atguigu3 数据库。
+   -uroot: 使用 root 用戶連接到 MySQL 服務器。
+   -p123456: 使用密碼 123456 連接。
+   -v: 啟用詳細模式。
+   atguigu3: 連接到 atguigu3 數據庫。
+
+
+使用時間回復數據:
+
+查詢時間: SET TIMESTAMP=1718335391/*!*/;  需把時間搓改成2024-06-14 11:23:11格式
+mysqlbinlog --no-defaults "/var/lib/mysql/mysql-bin.000077"
+
+/usr/bin/mysqlbinlog --no-defaults --start-datetime='2024-06-14 11:23:11' --stop-datetime='2024-06-14 11:24:07' --database=atguigudb3 /var/lib/mysql/mysql-bin.000077 | /usr/bin/mysql -uroot -p123456 -v atguigudb3

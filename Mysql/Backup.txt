@@ -1,0 +1,32 @@
+
+
+
+邏輯備份數據 指定數據庫
+mysqldump -uroot -p atguigudb3>/var/lib/mysql/backup/atguigudb3.sql
+mysqldump -uroot -p --databases atguigudb2 atguigudb3 > /var/lib/mysql/backup/part_databases.sql
+
+備份全部數據庫
+mysqldump -uroot -p --all-databases >/var/lib/mysql/backup/all_databases.sql
+
+備份部分表
+mysqldump -uroot -p atguigudb3 class_comment student > /var/lib/mysql/backup/part_table.sql
+
+備份單表的部分數據
+mysqldump -uroot -p atguigudb3 class_comment --where="comment_id <= 10004"> /var/lib/mysql/backup/part_class_comment.sql
+
+忽略指定表
+mysqldump -uroot -p atguigudb3 --ignore-table=atguigudb3.class_comment > /var/lib/mysql/backup/not_class_comment.sql
+
+忽略數據
+mysqldump -uroot -p atguigudb3 --no-data > /var/lib/mysql/backup/no_data.sql
+
+只要數據
+mysqldump -uroot -p atguigudb3 --no-create-info > /var/lib/mysql/backup/no_create.sql
+
+查詢存儲過程和函數的信息
+select SPECIFIC_NAME,ROUTINE_TYPE,ROUTINE_SCHEMA
+from information_schema.Routines
+where ROUTINE_SCHEMA='atguigudb3'
+
+包含存儲過程與函數
+mysqldump -uroot -p -R -E --databases atguigudb3>/var/lib/mysql/backup/atguigudb3_r_e.sql
