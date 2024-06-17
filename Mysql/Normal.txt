@@ -1,6 +1,7 @@
 
 配置文件目錄
 vi /etc/mysql/my.cnf
+vi /etc/my.cnf
 
 登入
 mysql -h 192.168.1.100 -P 3306 -u root -p

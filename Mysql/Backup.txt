@@ -1,7 +1,7 @@
 
+-----------------邏輯備份數據 -------------------
 
-
-邏輯備份數據 指定數據庫
+指定數據庫
 mysqldump -uroot -p atguigudb3>/var/lib/mysql/backup/atguigudb3.sql
 mysqldump -uroot -p --databases atguigudb2 atguigudb3 > /var/lib/mysql/backup/part_databases.sql
 
@@ -30,3 +30,22 @@ where ROUTINE_SCHEMA='atguigudb3'
 
 包含存儲過程與函數
 mysqldump -uroot -p -R -E --databases atguigudb3>/var/lib/mysql/backup/atguigudb3_r_e.sql
+
+使用備份回復數據(也可以輸出到新的庫)
+mysql -uroot -p atguigudb3 < /var/lib/mysql/backup/atguigudb3.sql
+
+全庫回復
+mysql -uroot -p < all.sql
+
+重全部備份提取指定庫(會再創atguigudb3_1.sql)
+sed -n '/^-- Current Database: `atguigudb3`/,/^-- Current Database: `/p' all_databases.sql > atguigudb3_1.sql
+
+
+查詢數據導出路徑
+show global variables like '%secure%';
+
+導出指定表
+mysqldump -uroot -p -T "/var/lib/mysql-files/" atguigudb3 class_comment
+
+導入指定表
+mysql> LOAD DATA INFILE '/var/lib/mysql-files/class_comment.txt' INTO TABLE atguigudb3.class_comment
