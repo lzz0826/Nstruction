@@ -1,0 +1,72 @@
+
+初始化一个新的 Go 模块，并创建 go.mod 文件。module path 是模块的路径，通常是仓库的 URL 或本地路径。
+go mod init example.com/my/module
+
+清理 go.mod 和 go.sum 文件，移除不再需要的依赖项，并添加缺失的依赖项。
+go mod tidy
+
+
+将所有依赖项复制到 vendor 目录中，以便在构建和测试时使用本地副本。
+go mod vendor
+
+
+验证 go.sum 中列出的所有模块的校验和，以确保模块的完整性。
+go mod verify
+
+打印模块依赖图，以便查看依赖关系的结构。
+go mod graph
+
+
+编辑 go.mod 文件，可以用于手动修改模块声明、添加或删除依赖项等。
+go mod edit -require example.com/new/dependency@v1.0.0
+go mod edit -droprequire example.com/old/dependency
+
+
+解释为什么需要某个模块，展示该模块被依赖的原因。
+go mod why example.com/module
+
+
+下载指定的模块及其所有依赖项到模块缓存中。适用于确保依赖项已被下载。
+go mod download example.com/module
+
+列出所有模块及其版本，包括直接和间接依赖项。
+go list -m all
+
+列出所有模块及其版本，包括直接和间接依赖项。
+go list -m all
+
+显示指定模块的信息，包括其版本号。
+go list -m example.com/module
+
+
+列出所有模块及其可用的更新版本。
+go list -m -u all
+
+列出指定模块的所有版本。
+go list -m -versions example.com/module
+
+-------------------示例用法
+初始化模块：
+go mod init example.com/my/module
+清理模块文件：
+go mod tidy
+查看模块依赖图：
+go mod graph
+验证模块完整性：
+go mod verify
+下载模块：
+go mod download example.com/module
+
+
+
+
+
+
+
+
+
+
+
+
+
+
