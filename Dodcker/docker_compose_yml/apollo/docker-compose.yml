@@ -1,0 +1,88 @@
+version: '3.1'
+services:
+#  db 可以使用原本服務理的(不一定需要在起容器) 需要執行 init里的SQL
+  apollo-db:
+    container_name: apollo_db #於運行 Apollo MySQL 數據庫 可以使用原本的 需要添加Apollo的SQL。
+    image: mysql:8.0.33
+    restart: always
+    platform: linux/amd64
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: 'mysql123456'
+    ports:
+      - "13306:3306"
+    volumes:
+      - './conf/my.cnf:/etc/my.cnf'
+      - './init:/docker-entrypoint-initdb.d'
+      - './data:/var/lib/mysql'
+    networks:
+      - apollonetwork
+
+# 服務發現Apollo預設使用 Eureka 可在額外配置其他服務發現
+  apollo-configservice: #用於運行 Apollo 配置服務
+    container_name: apollo_configservice
+    image: apolloconfig/apollo-configservice:2.1.0
+    restart: always
+    depends_on:
+      - apollo-db
+    environment:
+      SPRING_DATASOURCE_URL: 'jdbc:mysql://apollo-db:3306/ApolloConfigDB?characterEncoding=utf8&useSSL=false'
+      SPRING_DATASOURCE_USERNAME: 'root'
+      SPRING_DATASOURCE_PASSWORD: 'mysql123456'
+      JAVA_OPTS: "-Deureka.instance.homePageUrl=http://apollo-configservice:8080" #避免docker內部網路eureka無法發現服務
+      EUREKA_INSTANCE_IP_ADDRESS: 'apollo-configservice'
+
+    volumes:
+      - ./logs:/opt/logs
+    ports:
+      - "8080:8080"
+    networks:
+      - apollonetwork
+
+  # 服務發現Apollo預設使用 Eureka 可在額外配置其他服務發現
+  apollo-adminservice: #用於運行 Apollo 管理服務
+    container_name: apollo_adminservice
+    image: apolloconfig/apollo-adminservice:2.1.0
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: 'jdbc:mysql://apollo-db:3306/ApolloConfigDB?characterEncoding=utf8'
+      SPRING_DATASOURCE_USERNAME: 'root'
+      SPRING_DATASOURCE_PASSWORD: 'mysql123456'
+      JAVA_OPTS: "-Deureka.instance.homePageUrl=http://apollo-adminservice:8090 -Deureka.service.url=http://apollo-configservice:8080/eureka/ " #避免docker內部網路eureka無法發現服務
+      EUREKA_INSTANCE_IP_ADDRESS: 'apollo-adminservice'
+    depends_on:
+      - apollo-db
+      - apollo-configservice
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./logs/:/opt/logs
+    networks:
+      - apollonetwork
+
+  # 服務發現Apollo預設使用 Eureka 可在額外配置其他服務發現
+  apollo-portal: #用於運行 Apollo 管理門戶
+    container_name: apollo_portal
+    image: apolloconfig/apollo-portal:2.1.0
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: 'jdbc:mysql://apollo-db:3306/ApolloPortalDB?characterEncoding=utf8'
+      SPRING_DATASOURCE_USERNAME: 'root'
+      SPRING_DATASOURCE_PASSWORD: 'mysql123456'
+      APOLLO_PORTAL_ENVS: 'dev' #配置 Apollo 管理門戶的環境為開發環境 'dev'。
+      JAVA_OPTS: "-Deureka.instance.homePageUrl=http://apollo-portal:8070 -Deureka.service.url=http://apollo-configservice:8080/eureka/ " #避免docker內部網路eureka無法發現服務
+      EUREKA_INSTANCE_IP_ADDRESS: 'apollo-portal'
+      DEV_META: 'http://apollo-configservice:8080' #定開發環境下 Apollo 配置服務的 MetaServer 地址。
+    depends_on:
+      - apollo-db
+      - apollo-configservice
+    ports:
+      - "8070:8070"
+    volumes:
+      - ./logs/:/opt/logs
+    networks:
+      - apollonetwork
+
+networks:
+  apollonetwork:
+    external: true # 配置使用外部定義的 Docker 網絡 'apollonetwork'需要先創建。
