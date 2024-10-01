@@ -59,15 +59,20 @@ git log 查hard
 git pull origin main --allow-unrelated-histories
 
 
-
-
-
-
-
 -----回滾
 git reset ：回滾到某次提交。
 git reset --soft ：此次提交之後的修改會被退回到暫存區。
 git reset --hard ：此次提交之後的修改不做任何保留， git status 查看工作區是沒有記錄的。
+
+單獨還原
+git restore docker/goAdminRedis/docker-compose.yml
+
+原特定的文件到特定的分支或提交
+git restore --source <commit/branch> <file>
+
+还原该文件到 main 分支的状态
+git restore --source main docker/goAdminRedis/docker-compose.yml
+
 
 --新增忽略文件
 git add .gitignore
