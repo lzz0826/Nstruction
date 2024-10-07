@@ -14,3 +14,9 @@ java -jar jenkins.war -8080
 
 查看已啟動的java服務
 jps
+
+检查是否已安装 Java
+/usr/libexec/java_home -V
+
+切换到 Java 8
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
