@@ -1,0 +1,17 @@
+
+
+创建一个名为 test-topic 的主题，用于测试:
+--create：创建新主题。
+--topic：主题名称。
+--bootstrap-server：Kafka 服务器地址和端口。
+--replication-factor：副本因子，单节点环境设置为 1。
+--partitions：分区数，设置为 1 便于测试。
+kafka-topics --create --topic test-topic --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1
+
+使用 Kafka 的生产者工具向 test-topic 发送消息:
+kafka-console-producer --topic test-topic --bootstrap-server localhost:9092
+
+执行上述命令后，输入一些消息内容，然后按 Enter 键。例如： Hello Kafka!
+
+消费消息:
+kafka-console-consumer --topic test-topic --from-beginning --bootstrap-server localhost:9092
