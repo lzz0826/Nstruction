@@ -8,9 +8,11 @@
 --partitions：分区数，设置为 1 便于测试。
 kafka-topics --create --topic test-topic --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1
 
+列出所有主题:
+kafka-topics --list --bootstrap-server localhost:9092
+
 使用 Kafka 的生产者工具向 test-topic 发送消息:
 kafka-console-producer --topic test-topic --bootstrap-server localhost:9092
-
 执行上述命令后，输入一些消息内容，然后按 Enter 键。例如： Hello Kafka!
 
 消费消息:
