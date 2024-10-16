@@ -36,6 +36,12 @@ brew link php@7.4  # 鏈接 PHP 7.4
 
 ----linux---
 
+在 Mac 上获取 IP 地址
+ifconfig
+ipconfig getifaddr en0
+
+
+
 打印echo
 echo $GOPATH
 
