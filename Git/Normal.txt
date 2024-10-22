@@ -13,6 +13,13 @@ git commit -m 'xxx'
 # 添加一個遠程倉庫
 git remote add origin git@github.com:lzz0826/ShardingSphere.git
 
+把現有的倉庫連結到遠端倉庫，執行：
+git remote add origin https://github.com/your-username/your-repository.git
+
+如果 origin 已經存在但 URL 錯誤，可以重新設定：
+git remote set-url origin <repository-URL>
+
+
 放暫存
 git stash
 
