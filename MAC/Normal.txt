@@ -36,6 +36,10 @@ brew link php@7.4  # 鏈接 PHP 7.4
 
 ----linux---
 
+在 macOS 上命令來測試連接： -z 表示只檢查連接，不傳輸數據。 -v 則會顯示連接的詳情。
+nc -zv 127.0.0.1 61613
+
+
 在 Mac 上获取 IP 地址
 ifconfig
 ipconfig getifaddr en0
