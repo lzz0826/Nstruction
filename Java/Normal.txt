@@ -1,4 +1,4 @@
-在Java中，所有引用類型的參數傳遞都是傳遞地址（即對對象的引用）。這包括：
+在Java中，所有引用類型的參數傳遞都是傳遞地址（即對對象的引用）*傳遞引用的拷貝 。這包括：
 類（Class）
 接口（Interface）
 數組（Array）
@@ -8,6 +8,19 @@
 包裝類（Wrapper classes）：例如 Integer、Double、Boolean 等
 集合類（Collection classes）：例如 List、Set、Map 等
 其他自定義類型（Custom-defined types）：由開發者定義的類型
+
+類型	      是否會修改原本值  	原因
+Integer	            否	    包裝類型不可變，修改時創建新對象
+String	            否	    字符串不可變，操作返回新對象
+Map	                是	    集合可變，修改內容會影響原對象
+List	            是	    集合可變，修改內容會影響原對象
+Set	                是	    集合可變，修改內容會影響原對象
+
+Class (跟據定義的屬性 和方法)
+可變類（Mutable）   	是   	修改屬性會影響原對象
+不可變類（Immutable）	否   	類內所有屬性不可變，無法改變對象內容
+
+
 
 啟動java:
 java -jar jenkins.war -8080
