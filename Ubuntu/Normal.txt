@@ -51,6 +51,8 @@ mvn -version
 sudo apt install git
 
 -----------指令-------------
+查看當前用戶
+whoami
 
 查找關鍵字(grep查詢工具)
 grep "error" logfile.txt
