@@ -50,6 +50,9 @@ ifconfig
 ipconfig getifaddr en0
 
 
+當前系統中所有處於監聽狀態的網絡端口（LISTEN）
+sudo lsof -i -P -n | grep LISTEN
+
 
 打印echo
 echo $GOPATH
