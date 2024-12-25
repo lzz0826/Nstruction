@@ -1,0 +1,88 @@
+version: '3.6'
+services:
+  es_1:
+    # 鏡像名稱
+    image: elasticsearch:8.6.0
+    # 容器名稱
+    container_name: es_1
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    # 文件映射到主機
+    volumes:
+      - ./es1/config/es1.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./es1/plugins:/usr/share/elasticsearch/plugins
+      - ./es1/data/es1-data:/usr/share/elasticsearch/data
+    # 賦予權限
+    privileged: true
+    #端口映射
+    ports:
+      - 9200:9200
+      - 9300:9300
+    # 指定網段
+    networks:
+      defalut:
+        ipv4_address: 173.199.8.2  #設置ip地址
+  es_2:
+    # 鏡像名稱
+    image: elasticsearch:8.6.0
+    # 容器名稱
+    container_name: es_2
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    # 文件映射到主機
+    volumes:
+      - ./es2/config/es2.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./es2/plugins:/usr/share/elasticsearch/plugins
+      - ./es2/data/es2-data:/usr/share/elasticsearch/data
+    # 賦予權限
+    privileged: true
+    #端口映射
+    ports:
+      - 9201:9200
+      - 9301:9300
+    # 指定網段
+    networks:
+      defalut:
+        ipv4_address: 173.199.8.3  #設置ip地址
+  es_3:
+    # 鏡像名稱
+    image: elasticsearch:8.6.0
+    # 容器名稱
+    container_name: es_3
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    # 文件映射到主機
+    volumes:
+      - ./es3/config/es3.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./es3/plugins:/usr/share/elasticsearch/plugins
+      - ./es3/data/es3-data:/usr/share/elasticsearch/data
+    # 賦予權限
+    privileged: true
+    #端口映射
+    ports:
+      - 9202:9200
+      - 9302:9300
+    # 指定網段
+    networks:
+      defalut:
+        ipv4_address: 173.199.8.4  #設置ip地址
+  kibana:
+    # 鏡像名稱
+    image: kibana:8.6.0
+    # 容器名稱
+    container_name: kibana
+    ports:
+      - 5601:5601
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    depends_on:
+      - es_3
+    networks:
+      defalut:
+        ipv4_address: 173.199.8.5  #設置ip地址
+networks:
+  defalut:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "173.199.8.0/24"
