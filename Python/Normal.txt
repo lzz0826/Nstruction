@@ -1,0 +1,29 @@
+
+啟動 Python 解釋器
+python
+python3
+
+運行 Python 文件
+python script.py
+
+檢查 Python 版本
+python --version
+python3 --version
+
+
+查看已安裝包
+pip list
+
+卸載依賴包
+pip uninstall package_name
+
+創建虛擬環境
+python -m venv venv_name
+
+激活虛擬環境
+Linux/macOS: source venv_name/bin/activate
+Windows: venv_name\Scripts\activate
+
+退出虛擬環境
+deactivate
+
