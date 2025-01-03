@@ -1,7 +1,12 @@
 
+MAC安装p3
+brew install python@3.10
+
+
 啟動 Python 解釋器
 python
 python3
+
 
 運行 Python 文件
 python script.py
@@ -24,8 +29,19 @@ pip3 list
 pip3 安装依赖
 pip3 install -r requirements.txt
 
+列出所有安装的依赖：
+pip freeze
+
+卸载所有依赖：
+pip freeze | xargs pip uninstall -y
+
+
+
+
 安装到虚拟环境
 python3 -m venv venv
+python3.10 -m venv venv
+
 
 
 卸載依賴包
@@ -33,6 +49,8 @@ pip uninstall package_name
 
 創建虛擬環境
 python -m venv venv_name
+python3.10 -m venv venv
+
 
 激活虛擬環境
 Linux/macOS: source venv_name/bin/activate
