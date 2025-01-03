@@ -10,9 +10,21 @@ python script.py
 python --version
 python3 --version
 
+安装 pip：
+python3 -m ensurepip --upgrade
+python3 -m pip install --upgrade pip
+
 
 查看已安裝包
 pip list
+pip3 list
+
+pip3 安装依赖
+pip3 install -r requirements.txt
+
+安装到虚拟环境
+python3 -m venv venv
+
 
 卸載依賴包
 pip uninstall package_name
