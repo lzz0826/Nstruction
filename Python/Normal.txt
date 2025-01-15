@@ -26,6 +26,10 @@ pip3 install pip==23.2.1
 pip list
 pip3 list
 
+安装的 插键 版本
+pip show selenium
+
+
 pip3 安装依赖
 pip3 install -r requirements.txt
 
@@ -34,6 +38,13 @@ pip freeze
 
 卸载所有依赖：
 pip freeze | xargs pip uninstall -y
+
+安装指定插建
+pip install selenium==3.141.0
+
+
+卸载 插键
+pip uninstall selenium
 
 
 
