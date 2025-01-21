@@ -91,3 +91,19 @@ git push
 ----GitHub 倉庫中刪除已經上傳的文件。這不會刪除本地文件，只是將它們從倉庫中移除。你可以使用以下命令：
 git rm --cached 文件名
 git rm -r --cached .idea
+
+-- cherry-pick
+
+切换到 main 分支：
+git checkout main
+
+查看 feature 分支的日志，找到需要的提交：
+git log feature
+
+应用该提交：
+git cherry-pick abc1234
+
+如果成功，main 分支将包含该提交的更改。
+
+
+
