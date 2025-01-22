@@ -101,7 +101,7 @@ git checkout main
 git log feature
 
 应用该提交：
-git cherry-pick abc1234
+git cherry-pick [commit-hash]
 
 如果成功，main 分支将包含该提交的更改。
 
