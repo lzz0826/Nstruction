@@ -1,0 +1,85 @@
+version: "3.7"
+
+networks:
+   hadoop-net:
+      driver: bridge
+
+services:
+   namenode:
+      image: apache/hadoop:3.3.5
+      hostname: namenode  # 指定 NameNode 主机名
+      command: ["hdfs", "namenode"]  # 启动 NameNode 进程
+      user: "root:root"  # 以 root 用户运行
+      ports:
+        - 9870:9870  # NameNode Web UI 端口
+        - 8020:8020  # HDFS 访问端口
+        - 10020:10020
+        - 19888:19888  # 歷史訊息 访问端口
+      volumes:
+        - namenode:/tmp/hadoop-root/dfs  # 持久化存储 NameNode 数据
+      env_file:
+        - ./config.env  # 加载环境变量配置
+      privileged: true  # 允许容器以特权模式运行
+      environment:
+          ENSURE_NAMENODE_DIR: "/tmp/hadoop-root/dfs/name"  # 指定 NameNode 存储目录
+      networks:
+        - hadoop-net
+
+   resourcemanager:
+      image: apache/hadoop:3.3.5
+      hostname: resourcemanager  # 指定 ResourceManager 主机名
+      command: ["yarn", "resourcemanager"]  # 启动 YARN ResourceManager 进程
+      user: "root:root"
+      ports:
+         - 8088:8088  # ResourceManager Web UI 端口
+         - 8030:8030  # Application Manager 端口
+         - 8031:8031  # Application Master 端口
+         - 8032:8032  # 资源调度端口
+         - 8033:8033  # 保留端口
+      env_file:
+        - ./config.env  # 加载环境变量配置
+      volumes:
+        - ./test.sh:/opt/test.sh
+      networks:
+        - hadoop-net
+   nodemanager:
+      image: apache/hadoop:3.3.5
+      command: ["yarn", "nodemanager"]  # 启动 YARN NodeManager 进程
+      user: "root:root"
+      env_file:
+        - ./config.env  # 加载环境变量配置
+      ports:
+         - 8042:8042  # NodeManager Web UI 端口
+      networks:
+        - hadoop-net
+   datanode01:
+      image: apache/hadoop:3.3.5
+      hostname: datanode01  # 指定 DataNode1 主机名
+      command: ["hdfs", "datanode"]  # 启动 DataNode 进程
+      user: "root:root"
+      env_file:
+        - ./config.env  # 加载环境变量配置
+      privileged: true  # 允许容器以特权模式运行
+      volumes:
+        - datanode01:/tmp/hadoop-root/dfs  # 持久化存储 DataNode1 数据
+      networks:
+        - hadoop-net
+
+   datanode02:
+      image: apache/hadoop:3.3.5
+      hostname: datanode02  # 指定 DataNode2 主机名
+      command: ["hdfs", "datanode"]  # 启动 DataNode 进程
+      user: "root:root"
+      env_file:
+        - ./config.env  # 加载环境变量配置
+      privileged: true  # 允许容器以特权模式运行
+      volumes:
+        - datanode02:/tmp/hadoop-root/dfs  # 持久化存储 DataNode2 数据
+      networks:
+        - hadoop-net
+
+# 定义持久化存储卷，用于存储 HDFS 数据
+volumes:
+  datanode01:  # DataNode1 数据存储卷
+  datanode02:  # DataNode2 数据存储卷
+  namenode:  # NameNode 数据存储卷
