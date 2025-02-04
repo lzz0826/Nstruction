@@ -1,0 +1,53 @@
+
+
+
+## 注意事項:
+上傳下載使用 UI URL ip會動態帶入 外部訪問使用 docker 需要使用暴露與端口
+Datanode 無暴露端口需要使用指令查詢docker容器ip
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' e66558c3d824
+
+# core-site.xml 配置
+CORE-SITE.XML_fs.default.name=hdfs://namenode  # HDFS 默认命名空间地址
+CORE-SITE.XML_fs.defaultFS=hdfs://namenode  # HDFS 默认文件系统
+CORE-SITE.XML_hadoop.http.staticuser.user=root  # 设置 HTTP 用户为 root
+CORE-SITE.XML_hadoop.tmp.dir=/tmp/hadoop-root  # Hadoop 临时目录
+
+# hdfs-site.xml 配置
+HDFS-SITE.XML_dfs.namenode.rpc-address=namenode:8020  # NameNode RPC 服务器地址
+HDFS-SITE.XML_dfs.replication=2  # HDFS 副本因子（设置为 2 表示每个数据块有两个副本）
+
+# mapred-site.xml 配置
+MAPRED-SITE.XML_mapreduce.framework.name=yarn  # MapReduce 计算框架使用 YARN
+MAPRED-SITE.XML_yarn.app.mapreduce.am.env=HADOOP_MAPRED_HOME=${HADOOP_HOME}  # 设置 AM（Application Master）环境变量
+MAPRED-SITE.XML_mapreduce.map.env=HADOOP_MAPRED_HOME=${HADOOP_HOME}  # 设置 Map 任务环境变量
+MAPRED-SITE.XML_mapreduce.reduce.env=HADOOP_MAPRED_HOME=${HADOOP_HOME}  # 设置 Reduce 任务环境变量
+MAPRED-SITE.XML_mapreduce.jobhistory.address=0.0.0.0:10020  # JobHistory Server 地址
+MAPRED-SITE.XML_mapreduce.jobhistory.webapp.address=0.0.0.0:19888  # JobHistory Server Web UI 端口
+
+# yarn-site.xml 配置
+YARN-SITE.XML_yarn.resourcemanager.hostname=resourcemanager  # YARN ResourceManager 主机名
+YARN-SITE.XML_yarn.nodemanager.pmem-check-enabled=true  # 启用物理内存检查
+YARN-SITE.XML_yarn.nodemanager.delete.debug-delay-sec=600  # 删除容器日志的延迟时间（单位：秒）
+YARN-SITE.XML_yarn.nodemanager.vmem-check-enabled=true  # 启用虚拟内存检查
+YARN-SITE.XML_yarn.nodemanager.aux-services=mapreduce_shuffle  # 设置辅助服务为 mapreduce_shuffle
+YARN-SITE.XML_yarn.nodemanager.resource.cpu-vcores=4  # 设置每个 NodeManager 提供的 CPU 核数
+YARN-SITE.XML_yarn.log-aggregation-enable=true  # 啟用 YARN 日誌聚合
+YARN-SITE.XML_yarn.log.server.url=http://namenode:19888/jobhistory/logs  # 指定 YARN 日誌伺服器 URL
+YARN-SITE.XML_yarn.log-aggregation.retain-seconds=604800  # 指定日誌在 HDFS 中保留的時間（秒）
+YARN-SITE.XML_yarn.application.classpath=opt/hadoop/etc/hadoop:/opt/hadoop/share/hadoop/common/lib/*:/opt/hadoop/share/hadoop/common/*:/opt/hadoop/share/hadoop/hdfs:/opt/hadoop/share/hadoop/hdfs/lib/*:/opt/hadoop/share/hadoop/hdfs/*:/opt/hadoop/share/hadoop/mapreduce/*:/opt/hadoop/share/hadoop/yarn:/opt/hadoop/share/hadoop/yarn/lib/*:/opt/hadoop/share/hadoop/yarn/*
+# 以上设置 YARN 任务运行时的 CLASSPATH，确保 Hadoop 组件可用
+
+# capacity-scheduler.xml 配置
+CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.maximum-applications=10000  # 最大支持的应用数量
+CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.maximum-am-resource-percent=0.1  # AM 资源最大占比
+CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.resource-calculator=org.apache.hadoop.yarn.util.resource.DefaultResourceCalculator  # 资源计算方式
+CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.queues=default  # 根队列设置
+CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.capacity=100  # 默认队列的容量（百分比）
+CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.user-limit-factor=1  # 用户最大可用资源系数
+CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.maximum-capacity=100  # 队列最大容量
+CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.state=RUNNING  # 队列当前状态
+CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.acl_submit_applications=*  # 允许所有用户提交应用
+CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.acl_administer_queue=*  # 允许所有用户管理队列
+CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.node-locality-delay=40  # 本地性延迟（任务优先在本地运行）
+CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.queue-mappings=  # 队列映射（留空表示无映射）
+CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.queue-mappings-override.enable=false  # 是否启用队列映射重写
