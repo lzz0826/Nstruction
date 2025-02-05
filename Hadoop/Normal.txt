@@ -1,0 +1,68 @@
+
+-------------------- 上傳 ----------------------
+
+-moveFromLocal：從本地剪切粘貼到HDFS
+hadoop fs  -moveFromLocal  ./shuguo.txt  /sanguo
+
+-copyFromLocal：從本地文件系統中拷貝文件到HDFS路徑去
+hadoop fs -copyFromLocal weiguo.txt /sanguo
+
+-put：等同於copyFromLocal，生產環境更習慣用put
+hadoop fs -put ./wuguo.txt /sanguo
+
+-appendToFile：追加一個文件到已經存在的文件末尾
+
+hadoop fs -appendToFile liubei.txt /sanguo/shuguo.txt
+
+-------------------- 下載 ----------------------
+
+-copyToLocal：從HDFS拷貝到本地
+hadoop fs -copyToLocal /sanguo/shuguo.txt ./
+
+
+-get：等同於copyToLocal，生產環境更習慣用get
+hadoop fs -get /sanguo/shuguo.txt ./shuguo2.txt
+
+
+-------------------- HDFS直接操作 ----------------------
+
+-ls: 显示目錄信息
+hadoop fs -ls /sanguo
+
+-cat：显示文件內容
+hadoop fs -cat /sanguo/shuguo.txt
+
+-chgrp、-chmod、-chown：Linux文件系統中的用法一樣，修改文件所屬權限
+hadoop fs  -chgrp  root /sanguo/shuguo.txt
+hadoop fs  -chmod  666  /sanguo/shuguo.txt
+hadoop fs  -chown  root:root   /sanguo/shuguo.txt
+
+-mkdir：創建路徑
+hadoop fs -mkdir /jinguo
+
+-cp：從HDFS的一個路徑拷貝到HDFS的另一個路徑
+hadoop fs -cp /sanguo/shuguo.txt /jinguo
+
+-mv：在HDFS目錄中移動文件
+hadoop fs -mv /sanguo/weiguo.txt /jinguo
+hadoop fs -mv /Lecture1.pdf /guoting.pdf
+注：當目的地是目錄時，就是單純的移動文件。若目的地是文件，則相當於剪切過去再重命名。沒錯，給文件或目錄重命名的實質就是剪切並重命名，只不過路徑沒有發生變化只更改名字罷了。
+
+-tail：显示一個文件的末尾1kb的數據
+hadoop fs -tail /jinguo/shuguo.txt
+
+-rm：刪除文件或文件夾
+hadoop fs -rm /sanguo/shuguo.txt
+
+-rm -r：遞歸刪除目錄及目錄裏面內容
+hadoop fs -rm -r /sanguo
+
+-du：統計文件夾的大小信息
+hadoop fs -du /jinguo
+hadoop fs -du -s -h
+
+-setrep：設置HDFS中文件的副本數量
+hadoop fs -setrep 10 /jinguo/shuguo.txt
+
+
+
