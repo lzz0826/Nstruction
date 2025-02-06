@@ -1,4 +1,3 @@
-
 -------------------- 上傳 ----------------------
 
 -moveFromLocal：從本地剪切粘貼到HDFS
@@ -25,6 +24,15 @@ hadoop fs -get /sanguo/shuguo.txt ./shuguo2.txt
 
 
 -------------------- HDFS直接操作 ----------------------
+
+查詢 NameNode 當前生效的配置
+hdfs getconf -confKey dfs.blockreport.intervalMsec
+
+檢查 HDFS 集群狀態，確保 DataNode、NameNode 運行正常。
+hdfs dfsadmin -report
+
+查看 HDFS 根目錄
+hdfs dfs -ls /
 
 -ls: 显示目錄信息
 hadoop fs -ls /sanguo
