@@ -64,5 +64,13 @@ hadoop fs -du -s -h
 -setrep：設置HDFS中文件的副本數量
 hadoop fs -setrep 10 /jinguo/shuguo.txt
 
+oev查看Edits文件
+hdfs oiv -p 文件类型 -i镜像文件 -o 转换后文件输出路径
+hdfs oiv -p XML -i fsimage_0000000000000000010 -o fs.xml
+
+hdfs oev -p 文件类型 -i编辑日志 -o 转换后文件输出路径
+hdfs oev -p XML -i edits_0000000000000000003-0000000000000000010 -o edits.xml
+
+
 
 
