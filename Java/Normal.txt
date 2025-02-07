@@ -25,6 +25,10 @@ Class (跟據定義的屬性 和方法)
 啟動java:
 java -jar jenkins.war -8080
 
+啟動java 帶參數:
+main(String[] args) 裡的 args 按照代數陣列可以取 args[0] ...
+java -jar xxx.jar a b c 1 2 3
+
 查看已啟動的java服務
 jps
 

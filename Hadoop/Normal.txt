@@ -40,6 +40,9 @@ hadoop fs -ls /sanguo
 -cat：显示文件內容
 hadoop fs -cat /sanguo/shuguo.txt
 
+執行自訂打包上傳的 java (指定類:com.example.mapReduce.WordCountDriver 參數1 參數2)
+hadoop jar xxx.jar com.example.mapReduce.WordCountDriver /input /output
+
 -chgrp、-chmod、-chown：Linux文件系統中的用法一樣，修改文件所屬權限
 hadoop fs  -chgrp  root /sanguo/shuguo.txt
 hadoop fs  -chmod  666  /sanguo/shuguo.txt
