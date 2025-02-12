@@ -40,6 +40,9 @@ hadoop fs -ls /sanguo
 -cat：显示文件內容
 hadoop fs -cat /sanguo/shuguo.txt
 
+查詢可用壓縮方式
+hadoop checknative
+
 執行自訂打包上傳的 java (指定類:com.example.mapReduce.WordCountDriver 參數1 參數2)
 hadoop jar xxx.jar com.example.mapReduce.WordCountDriver /input /output
 

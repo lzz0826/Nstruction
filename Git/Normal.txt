@@ -39,7 +39,7 @@ git log main
 6. git pull origin master  (衝突)
 7. git push origin feat/newBranch
 
---------------------------------
+---------- 推送新分支(正規流程) ----------------------
 master 主-生產
 release 預發
 develop 開發
@@ -50,6 +50,8 @@ user_KY1624_dev_master
 master切分支(user_KY1624_merge_dev) -> 開發 -> merge develop(user_KY1624_merge_dev 合develop) -> 開發上測試 ->
 切分支(user_KY1624_dev_master) -> merge release(user_KY1624_dev_master 合release)-> 打包 上预發環境 QA 產品驗 ->
 merge master(user_KY1624_dev_master 合master) -> 打包上版
+
+
 
 
 ----分支
