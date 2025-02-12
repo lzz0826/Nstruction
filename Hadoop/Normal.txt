@@ -79,11 +79,58 @@ hadoop fs -du -s -h
 hadoop fs -setrep 10 /jinguo/shuguo.txt
 
 oev查看Edits文件
-hdfs oiv -p 文件类型 -i镜像文件 -o 转换后文件输出路径
+hdfs oiv -p 文件類型 -i鏡像文件 -o 轉換後文件輸出路徑
 hdfs oiv -p XML -i fsimage_0000000000000000010 -o fs.xml
 
-hdfs oev -p 文件类型 -i编辑日志 -o 转换后文件输出路径
+hdfs oev -p 文件類型 -i編輯日誌 -o 轉換後文件輸出路徑
 hdfs oev -p XML -i edits_0000000000000000003-0000000000000000010 -o edits.xml
+
+
+-------------------- YARN 常用指令 ----------------------
+
+列出所有Application：
+yarn application -list
+
+根據Application狀態過濾出指定Application，如過濾出已完成的Application：
+Application的狀態有：ALL、NEW、NEW_SAVING、SUBMITTED、ACCEPTED、RUNNING、FINISHED、FAILED、KILLED。
+yarn application -list -appStates FINISHED
+
+殺掉某個Application：其中，application_id是一串形如application_1612577921195_0001的字符串。
+yarn application -kill application-id
+
+列出所有Application嘗試的列表：
+yarn applicationattempt -list <ApplicationId>
+
+打印ApplicationAttempt的狀態：
+yarn applicationattempt -status <applicationAttemptId>
+
+--查看日誌
+查詢某個Application的日誌：
+yarn logs -applicationId <application-id>
+
+查詢container日誌：
+yarn logs -applicationId <ApplicationId> -containerId <ContainerId>
+
+--查看容器
+列出所有容器：
+yarn container -list <ApplicationAttemptId>
+
+打印容器狀態：只有在任務運行的時候，才能看到container的狀態
+       yarn container -status <ContainerId>
+
+--查看節點狀態
+列出所有節點：
+yarn node -list -all
+
+--rmadmin更新配置
+加載隊列配置：可以實現對隊列配置信息的動態的修改，無需停機。
+       yarn rmadmin -refreshQueues
+
+--查看隊列
+打印隊列信息：比如說yarn queue -status default，就是打印默認的隊列 會打印出隊列的狀態、當前容量等等。
+yarn queue -status <QueueName>
+
+
 
 
 
