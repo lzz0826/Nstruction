@@ -39,6 +39,17 @@ git log main
 6. git pull origin master  (衝突)
 7. git push origin feat/newBranch
 
+--------------------------------
+master 主-生產
+release 預發
+develop 開發
+
+user_KY1624_merge_dev
+user_KY1624_dev_master
+
+master切分支(user_KY1624_merge_dev) -> 開發 -> merge develop(user_KY1624_merge_dev 合develop) -> 開發上測試 ->
+切分支(user_KY1624_dev_master) -> merge release(user_KY1624_dev_master 合release)-> 打包 上预發環境 QA 產品驗 ->
+merge master(user_KY1624_dev_master 合master) -> 打包上版
 
 
 ----分支
@@ -77,7 +88,7 @@ git restore docker/goAdminRedis/docker-compose.yml
 原特定的文件到特定的分支或提交
 git restore --source <commit/branch> <file>
 
-还原该文件到 main 分支的状态
+還原該文件到 main 分支的狀態
 git restore --source main docker/goAdminRedis/docker-compose.yml
 
 
@@ -94,16 +105,16 @@ git rm -r --cached .idea
 
 -- cherry-pick
 
-切换到 main 分支：
+切換到 main 分支：
 git checkout main
 
-查看 feature 分支的日志，找到需要的提交：
+查看 feature 分支的日誌，找到需要的提交：
 git log feature
 
-应用该提交：
+應用該提交：
 git cherry-pick [commit-hash]
 
-如果成功，main 分支将包含该提交的更改。
+如果成功，main 分支將包含該提交的更改。
 
 
 
