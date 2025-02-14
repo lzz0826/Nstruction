@@ -15,7 +15,6 @@ CORE-SITE.XML_hadoop.tmp.dir=/tmp/hadoop-root  # Hadoop 臨時目錄
 # hdfs-site.xml 配置
 HDFS-SITE.XML_dfs.namenode.rpc-address=namenode:8020  # NameNode RPC 服務器地址
 HDFS-SITE.XML_dfs.replication=2  # HDFS 副本因子（設置為 2 表示每個數據塊有兩個副本）
-HDFS-SITE.XML_dfs.namenode.handler.count=21  # 處理不同 DataNode 的併發心跳及客戶端病發的元數據操作 dfs.namenode.handler.count=20Xlog Cluster Size
 
 # mapred-site.xml 配置
 MAPRED-SITE.XML_mapreduce.framework.name=yarn  # MapReduce 計算框架使用 YARN
@@ -52,3 +51,8 @@ CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.root.default.acl_administer_queue
 CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.node-locality-delay=40  # 本地性延遲（任務優先在本地運行）
 CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.queue-mappings=  # 隊列映射（留空表示無映射）
 CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.queue-mappings-override.enable=false  # 是否啟用隊列映射重寫
+
+
+
+-------- 其他配置 -------
+HDFS-SITE.XML_dfs.namenode.handler.count=21  # 處理不同 DataNode 的併發心跳及客戶端病發的元數據操作 dfs.namenode.handler.count=20Xlog Cluster Size
