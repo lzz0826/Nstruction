@@ -26,7 +26,7 @@ MAPRED-SITE.XML_mapreduce.jobhistory.webapp.address=0.0.0.0:19888  # JobHistory 
 
 # yarn-site.xml 配置
 YARN-SITE.XML_yarn.resourcemanager.hostname=resourcemanager  # YARN ResourceManager 主機名
-YARN-SITE.XML_yarn.nodemanager.pmem-check-enabled=true  # 啟用物理內存檢查
+YARN-SITE.XML_yarn.nodemanager.pmem-check-enabled=true  # 啟用物理內存檢查 *java8 和 linux 虛擬內存兼容性不好java會沒法用 開啟物理內存
 YARN-SITE.XML_yarn.nodemanager.delete.debug-delay-sec=600  # 刪除容器日誌的延遲時間（單位：秒）
 YARN-SITE.XML_yarn.nodemanager.vmem-check-enabled=true  # 啟用虛擬內存檢查
 YARN-SITE.XML_yarn.nodemanager.aux-services=mapreduce_shuffle  # 設置輔助服務為 mapreduce_shuffle
@@ -55,4 +55,37 @@ CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.queue-mappings-override.enable=fa
 
 
 -------- 其他配置 -------
-HDFS-SITE.XML_dfs.namenode.handler.count=21  # 處理不同 DataNode 的併發心跳及客戶端病發的元數據操作 dfs.namenode.handler.count=20Xlog Cluster Size
+
+---HDFS-SITE.XML:
+dfs.namenode.handler.count=21  # 處理不同 DataNode 的併發心跳及客戶端病發的元數據操作 dfs.namenode.handler.count=20Xlog Cluster Size
+
+
+---CORE-SITE.XML:
+配置垃圾回收 1 分鐘 **web上刪除不會走回收站 代碼要通過new_Trash(conf) 移動到回收站
+hadoop fs -rm /a.txt 會走回收站
+fs.trash.interval=1
+
+
+---DFS-SITE.XML:
+DataNode多目錄配置 (同個節點多個 DataNode 添加新的硬碟 ) *每隔節點硬體不同要分別對應
+dfs.datanode.data.dir=file://{hadoop.tmp.dir}/dfs/data1,file://{hadoop.tmp.dir}/dfs/data2
+
+添加硬碟並設置結舔後需數據均衡:
+生成均衡計畫:
+hdfs diskbalancer -plan hadoop103
+執行均衡計畫:
+hdfs diskbalancer -execute hadoop103.plan.json
+查看當前均衡計畫執行情況:
+hdfs diskbalancer -query hadoop103
+取消均衡計畫:
+hdfs diskbalancer -cancel hadoop103.plan.json
+
+
+
+
+
+
+
+
+
+
