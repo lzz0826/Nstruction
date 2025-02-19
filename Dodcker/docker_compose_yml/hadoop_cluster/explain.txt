@@ -60,12 +60,17 @@ CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.queue-mappings-override.enable=fa
 處理不同 DataNode 的併發心跳及客戶端病發的元數據操作 dfs.namenode.handler.count=20Xlog Cluster Size:
 dfs.namenode.handler.count=21
 
-縮容擴容用 第一次要重啟集群 之後使用 myhadoop.sh stop , myhadoop.sh start
+擴容用 第一次要重啟集群  之後使用 myhadoop.sh stop , myhadoop.sh start
 白名單(需要在該路徑下添加whitelist)
 dfs.hosts=/opt/module/hadoop-3.1.3/etc/hadoop/whitelist
+刷新NameNode
+hdfs dfsadmin -refreshNodes
+
+縮容用 第一次要重啟集群  之後使用 myhadoop.sh stop , myhadoop.sh start
 黑名單白名單(需要在該路徑下添加blacklist)
 dfs.hosts.exclude=/opt/module/hadoop-3.1.3/etc/hadoop/blacklist
-
+刷新NameNode
+hdfs dfsadmin -refreshNodes
 
 
 

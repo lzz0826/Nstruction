@@ -85,6 +85,11 @@ hdfs oiv -p XML -i fsimage_0000000000000000010 -o fs.xml
 hdfs oev -p 文件類型 -i編輯日誌 -o 轉換後文件輸出路徑
 hdfs oev -p XML -i edits_0000000000000000003-0000000000000000010 -o edits.xml
 
+開啟數據均衡的命令：
+sbin/start-balancer.sh -threshold 10
+
+停用數據均衡命令：
+sbin/stop-balancer.sh
 
 -------------------- YARN 常用指令 ----------------------
 
