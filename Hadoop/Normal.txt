@@ -91,6 +91,24 @@ sbin/start-balancer.sh -threshold 10
 停用數據均衡命令：
 sbin/stop-balancer.sh
 
+列出所有存儲策略:
+hdfs storagepolicies -listPolicies
+
+為指定路徑(數據存儲目錄)設置指定存儲策略
+hdfs storagepolicies -setstoragePolicy -path xxx -policy xxx
+
+獲取指定路徑(數據存儲目錄或文件)的存儲策略
+hdfs storagepolicies -getStoragePolicy -path xxx
+
+取消存儲策略
+hdfs storagepolicies -unsetStoragePolicy -path xxx
+
+查看文件塊的分佈
+bin/hdfs fsck xxx -files -blocks -locations
+
+查看集群節點
+hadoop dfsadmin -report
+
 -------------------- YARN 常用指令 ----------------------
 
 列出所有Application：

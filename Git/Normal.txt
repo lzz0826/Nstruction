@@ -10,6 +10,8 @@ git add --all
 
 git commit -m 'xxx'
 
+git log
+
 # 添加一個遠程倉庫
 git remote add origin git@github.com:lzz0826/ShardingSphere.git
 
