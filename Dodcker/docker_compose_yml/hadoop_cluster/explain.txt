@@ -56,7 +56,7 @@ CAPACITY-SCHEDULER.XML_yarn.scheduler.capacity.queue-mappings-override.enable=fa
 
 -------- 其他配置 -------
 
----HDFS-SITE.XML:
+------HDFS-SITE.XML------
 處理不同 DataNode 的併發心跳及客戶端病發的元數據操作 dfs.namenode.handler.count=20Xlog Cluster Size:
 dfs.namenode.handler.count=21
 
@@ -65,7 +65,7 @@ dfs.namenode.handler.count=21
 dfs.hosts=/opt/module/hadoop-3.1.3/etc/hadoop/whitelist
 刷新NameNode
 hdfs dfsadmin -refreshNodes
-数据均衡
+數據均衡
 sbin/start-balancer.sh -threshold 10
 
 縮容用 第一次要重啟集群  之後使用 myhadoop.sh stop , myhadoop.sh start
@@ -73,17 +73,17 @@ sbin/start-balancer.sh -threshold 10
 dfs.hosts.exclude=/opt/module/hadoop-3.1.3/etc/hadoop/blacklist
 刷新NameNode
 hdfs dfsadmin -refreshNodes
-数据均衡
+數據均衡
 sbin/start-balancer.sh -threshold 10
 
-----冷熱續劇配置
+----冷熱數據配置
 dfs.replication=2
 dfs.storage.policy.enabled=true
 dfs.daganode.data.dir=[SSD]file:///opt/module/hadoop-3.1.3/hdfsdata/ssd,[RAM_DISK]file:///opt/module/hadoop-3.1.3hdfsdata/ram_disk
 
 
 
----CORE-SITE.XML:
+------CORE-SITE.XML------
 
 配置垃圾回收 1 分鐘 **web上刪除不會走回收站 代碼要通過new_Trash(conf) 移動到回收站
 hadoop fs -rm /a.txt 會走回收站
@@ -92,11 +92,11 @@ fs.trash.interval=1
 
 
 
----DFS-SITE.XML:
+------DFS-SITE.XML------
 
 DataNode多目錄配置 ( 同個節點多個 DataNode 添加新的硬碟 ) *每隔節點硬體不同要分別對應
 dfs.datanode.data.dir=file://{hadoop.tmp.dir}/dfs/data1,file://{hadoop.tmp.dir}/dfs/data2
-添加硬碟並設置結舔後需數據均衡 同一節點附載均衡:
+添加硬碟並設置結舔后需數據均衡 同一節點附載均衡:
 生成均衡計畫:
 hdfs diskbalancer -plan hadoop103
 執行均衡計畫:
@@ -106,10 +106,65 @@ hdfs diskbalancer -query hadoop103
 取消均衡計畫:
 hdfs diskbalancer -cancel hadoop103.plan.json
 
+------MAPRED-SITE.XML------
+
+MapReduce參數調優
+MAPRED-SITE.XML_mapreduce.task.io.sort.mb=100  # 環形緩衝區大小，默認100m
+MAPRED-SITE.XML_mapreduce.map.sort.spill.percent=0.80  # 環形緩衝區溢寫閾值，默認0.8
+MAPRED-SITE.XML_mapreduce.task.io.sort.factor=10  #merge合併次數，默認10個
+MAPRED-SITE.XML_mapreduce.map.memory.mb=-1  # maptask內存，默認1g； maptask堆內存大小默認和該值大小一致mapreduce.map.java.opts
+MAPRED-SITE.XML_mapreduce.map.cpu.vcores=1  # maptask內存，默認1g； matask的CPU核數，默認1個
+MAPRED-SITE.XML_mapreduce.map.maxattempts=4  # matask異常重試次數，默認4次
+MAPRED-SITE.XML_mapreduce.reduce.shuffle.parallelcopies=5  # 每個Reduce去Map中拉取數據的并行數。默認值是5
+MAPRED-SITE.XML_mapreduce.reduce.shuffle.input.buffer.percent=0.70  # Buffer大小佔Reduce可用內存的比例，默認值0.7
+MAPRED-SITE.XML_mapreduce.reduce.shuffle.merge.percent=0.66  # Buffer中的數據達到多少比例開始寫入磁盤，默認值0.66
+MAPRED-SITE.XML_mapreduce.reduce.memory.mb=-1  # reducetask內存，默認1g；reducetask堆內存大小默認和該值大小一致mapreduce.reduce.java.opts
+MAPRED-SITE.XML_mapreduce.reduce.cpu.vcores=2  # reducetask的CPU核數，默認1個
+MAPRED-SITE.XML_mapreduce.reduce.maxattempts=4  # reducetask失敗重試次數，默認4次
+MAPRED-SITE.XML_mapreduce.job.reduce.slowstart.completedmaps=0.05  # 當MapTask完成的比例達到該值后才會為ReduceTask申請資源。默認是0.05
+MAPRED-SITE.XML_mapreduce.task.timeout=600000  # 如果程序在規定的默認10分鐘內沒有讀到數據，將強制超時退出
 
 
+------YARN-SITE.XML------
+
+YARN參數調優
+YARN-SITE.XML_yarn.resourcemanager.scheduler.class=org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler  # 選擇調度器，默認容量
+YARN-SITE.XML_yarn.resourcemanager.scheduler.client.thread-count=8  # ResourceManager處理調度器請求的線程數量,默認50；如果提交的任務數大於50，可以增加該值，但是不能超過3台 * 4線程 = 12線程（去除其他應用程序實際不能超過8）
+YARN-SITE.XML_yarn.nodemanager.resource.detect-hardware-capabilities=false  # 是否讓yarn自動檢測硬件進行配置，默認是false，如果該節點有很多其他應用程序，建議手動配置。如果該節點沒有其他應用程序，可以採用自動
+YARN-SITE.XML_yarn.nodemanager.resource.count-logical-processors-as-cores=false  # 是否將虛擬核數當作CPU核數，默認是false，採用物理CPU核數
+YARN-SITE.XML_yarn.nodemanager.resource.pcores-vcores-multiplier=1.0  # 虛擬核數和物理核數乘數，默認是1.0
+YARN-SITE.XML_yarn.nodemanager.resource.memory-mb=4096  # NodeManager使用內存數，默認8G，修改為4G內存
+YARN-SITE.XML_yarn.nodemanager.resource.cpu-vcores=4  # nodemanager的CPU核數，不按照硬件環境自動設定時默認是8個，修改為4個
+YARN-SITE.XML_yarn.scheduler.minimum-allocation-mb=1024  # 容器最小內存，默認1G
+YARN-SITE.XML_yarn.scheduler.maximum-allocation-mb=2048  # 容器最大內存，默認8G，修改為2G
+YARN-SITE.XML_yarn.scheduler.minimum-allocation-vcores=1  # 容器最小CPU核數，默認1個
+YARN-SITE.XML_yarn.scheduler.maximum-allocation-vcores=2  # 容器最大CPU核數，默認4個，修改為2個
+YARN-SITE.XML_yarn.nodemanager.vmem-check-enabled=false  # 虛擬內存檢查，默認打開，修改為關閉
+YARN-SITE.XML_yarn.nodemanager.vmem-pmem-ratio=2.1  # 虛擬內存和物理內存設置比例,默認2.1
 
 
+----------- uber 模式 針對小文件優化 (減少開關 開啟一個任務后 處理多筆 后才關閉) -----
+<!--  開啟uber模式，默認關閉 -->
+<property>
+  	<name>mapreduce.job.ubertask.enable</name>
+  	<value>true</value>
+</property>
+
+<!-- uber模式中最大的mapTask數量，即JVM重用的次數，只能向下修改，即小於9  -->
+<property>
+  	<name>mapreduce.job.ubertask.maxmaps</name>
+  	<value>9</value>
+</property>
+<!-- uber模式中最大的reduce數量，只能向下修改，即要不是0，要不是1 -->
+<property>
+  	<name>mapreduce.job.ubertask.maxreduces</name>
+  	<value>1</value>
+</property>
+<!-- uber模式中最大的輸入數據量，默認使用dfs.blocksize 的值，可向下修改 -->
+<property>
+  	<name>mapreduce.job.ubertask.maxbytes</name>
+  	<value></value>
+</property>
 
 
 

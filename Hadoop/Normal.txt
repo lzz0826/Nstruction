@@ -178,7 +178,7 @@ yarn node -list -all
 
 --rmadmin更新配置
 加載隊列配置：可以實現對隊列配置信息的動態的修改，無需停機。
-       yarn rmadmin -refreshQueues
+arn rmadmin -refreshQueues
 
 --查看隊列
 打印隊列信息：比如說yarn queue -status default，就是打印默認的隊列 會打印出隊列的狀態、當前容量等等。
