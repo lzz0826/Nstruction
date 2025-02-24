@@ -1,0 +1,140 @@
+時間複雜度排序（從快到慢）
+時間複雜度	  類型	           說明
+O(1)	      常數時間	       最快，執行時間不受輸入影響，例如陣列索引存取
+O(log n)	  對數時間	       比較快，每次運算減半輸入範圍，例如二分搜尋
+O(n)	      線性時間	       一般遍歷，輸入增加，時間成比例增長，例如陣列遍歷
+O(n log n)	  線性對數時間	   常見於高效排序演算法，如歸併排序、快速排序
+O(n²)	      二次時間	       常見於暴力解法，如雙重迴圈、冒泡排序
+O(2ⁿ)	      指數時間           遞歸問題，如遞歸斐波那契
+O(n!)	      階乘時間	       最慢，通常為組合問題，如全排列
+
+一般開發能接受的時間複雜度
+在實際開發中，O(1)、O(log n)、O(n) 是理想選擇，O(n log n) 也能接受，O(n²) 及以上的複雜度 一般只適用於小規模數據，若數據量較大則需進行優化。
+
+可接受的範圍（高效運行）：
+
+O(1) - 常數時間，最快，任何情況下都可接受。
+O(log n) - 常見於查找操作，例如 B+ 樹、二分搜尋。
+O(n) - 可接受，例如遍歷陣列、線性查找。
+O(n log n) - 高效排序，如快速排序、歸併排序。
+
+需注意效能（數據量大時會變慢）：
+O(n²) - 暴力解法，僅適用於小數據（如 n ≤ 10⁴）。
+O(2ⁿ) - 指數時間，遞歸問題，如斐波那契數列，n > 30 時會變慢。
+O(n!) - 階乘時間，僅適用於 n ≤ 10 的排列組合問題。
+
+優化策略：
+O(n²) 變 O(n log n)：使用高效演算法，如使用 QuickSort 取代 Bubble Sort。
+O(2ⁿ) 變 O(n)：使用動態規劃（Dynamic Programming），如 Fibonacci 記憶化遞歸。
+O(n!) 變 O(2ⁿ) 或 O(n log n)：剪枝（Pruning）或啟發式搜索（如 A* 演算法）。
+
+
+1. O(1) - 常數時間
+定義：無論輸入大小如何，執行時間都固定不變。
+範例：陣列索引存取
+func getElement(arr []int, index int) int {
+    return arr[index] // 直接存取元素，時間複雜度 O(1)
+}
+
+
+2. O(log n) - 對數時間
+定義：每次運算都將輸入範圍縮小為原來的一部分（通常是 1/2）。
+範例：二分搜尋法
+func binarySearch(arr []int, target int) int {
+    left, right := 0, len(arr)-1
+    for left <= right {
+        mid := left + (right-left)/2
+        if arr[mid] == target {
+            return mid
+        } else if arr[mid] < target {
+            left = mid + 1
+        } else {
+            right = mid - 1
+        }
+    }
+    return -1 // 沒找到
+}
+
+3. O(n) - 線性時間
+定義：輸入增加，運算時間也等比例增加。
+範例：遍歷陣列找最大值
+func findMax(arr []int) int {
+    max := arr[0]
+    for _, num := range arr {
+        if num > max {
+            max = num
+        }
+    }
+    return max
+}
+
+
+4. O(n log n) - 線性對數時間
+定義：通常出現在高效排序演算法，例如 歸併排序（Merge Sort） 或 快速排序（Quick Sort）。
+範例：快速排序
+func quickSort(arr []int) []int {
+    if len(arr) <= 1 {
+        return arr
+    }
+    pivot := arr[len(arr)/2]
+    left, right, equal := []int{}, []int{}, []int{}
+    for _, num := range arr {
+        if num < pivot {
+            left = append(left, num)
+        } else if num > pivot {
+            right = append(right, num)
+        } else {
+            equal = append(equal, num)
+        }
+    }
+    return append(append(quickSort(left), equal...), quickSort(right)...)
+}
+
+5. O(n²) - 二次時間
+定義：當輸入增加時，運算次數會以平方成長，常見於暴力解法。
+範例：冒泡排序（Bubble Sort）
+func bubbleSort(arr []int) {
+    n := len(arr)
+    for i := 0; i < n; i++ {
+        for j := 0; j < n-i-1; j++ {
+            if arr[j] > arr[j+1] {
+                arr[j], arr[j+1] = arr[j+1], arr[j] // 交換元素
+            }
+        }
+    }
+}
+
+
+6. O(2ⁿ) - 指數時間
+定義：輸入增加時，運算次數呈指數增長，通常出現在遞歸問題中。
+範例：遞歸解斐波那契數列
+func fib(n int) int {
+    if n <= 1 {
+        return n
+    }
+    return fib(n-1) + fib(n-2)
+}
+
+
+7. O(n!) - 階乘時間
+定義：最糟糕的情況，隨著輸入增長，計算時間急劇增加，常見於排列組合問題。
+範例：求一組數字的全排列
+func permute(arr []int, start int) {
+    if start == len(arr)-1 {
+        fmt.Println(arr)
+        return
+    }
+    for i := start; i < len(arr); i++ {
+        arr[start], arr[i] = arr[i], arr[start]
+        permute(arr, start+1)
+        arr[start], arr[i] = arr[i], arr[start] // 回溯
+    }
+}
+
+
+
+
+
+
+
+
