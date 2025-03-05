@@ -1,0 +1,52 @@
+
+
+----------  併發控制 ---------------
+sync	           提供併發工具，如 Mutex、WaitGroup、RWMutex、Once、Cond、Pool 等
+sync/atomic	       提供原子操作，如 atomic.AddInt64、atomic.LoadInt64，適用於高效並發計數器
+time	           提供時間處理、定時器、計時器，如 time.Now()、time.Sleep()、time.After()
+
+----------  I/O 和文件操作 ---------------
+os	               操作系統交互，如讀寫文件、環境變數、進程管理
+io	               提供 I/O 接口，如 io.Reader、io.Writer
+ioutil	           簡化文件讀寫（Go 1.16 之後用 os 取代）
+bufio	           高效讀寫大文件，提供緩衝讀取
+filepath	       處理文件路徑，如 filepath.Join()、filepath.Ext()
+
+----------  字符串和數據處理 ---------------
+strings            字符串操作，如 Replace、Split、Contains
+strconv            字符串與數字轉換，如 Atoi、Itoa、ParseFloat
+bytes              高效操作 []byte，適合處理二進制數據
+regexp             正則表達式匹配與處理
+encoding/json	   JSON 解析與序列化
+encoding/xml       XML 解析與序列化
+encoding/base64	   Base64 編碼與解碼
+
+----------  網絡與 HTTP ---------------
+net	               低層網絡編程，如 TCP/UDP 連接
+net/http	       HTTP 客戶端與服務器
+net/url	           URL 解析與編碼
+net/rpc	           RPC 調用，適合微服務通信
+net/http/httptest  用於 HTTP 測試
+
+----------  數據庫與持久化 ---------------
+database/sql	   SQL 數據庫操作，需搭配驅動，如 github.com/go-sql-driver/mysql
+encoding/csv	   讀寫 CSV 文件
+os	               文件存儲與讀取
+
+----------  日誌與調試 ---------------
+log	               基礎日誌功能，如 log.Println()、log.Fatal()
+fmt                基礎輸出格式化，如 fmt.Printf()
+runtime	           獲取 Go 運行時信息，如 runtime.NumGoroutine()
+debug/pprof	       性能分析，如 CPU、內存 profiling
+
+----------  測試 ---------------
+testing	           單元測試，與 go test 搭配使用
+net/http/httptest  測試 HTTP 服務
+testify/assert	   斷言工具（非標準庫，但常用）
+
+----------  隨機數與加密 ---------------
+math/rand	       生成隨機數
+crypto/md5	       MD5 哈希
+crypto/sha256	   SHA-256 哈希
+crypto/rand	       安全隨機數生成
+
