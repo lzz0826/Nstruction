@@ -50,11 +50,32 @@ user_KY1624_merge_dev
 user_KY1624_dev_master
 
 master切分支(user_KY1624_merge_dev) -> 開發 -> merge develop(user_KY1624_merge_dev 合develop) -> 開發上測試 ->
-切分支(user_KY1624_dev_master) -> merge release(user_KY1624_dev_master 合release)-> 打包 上预發環境 QA 產品驗 ->
+切分支(user_KY1624_dev_master) -> merge release(user_KY1624_dev_master 合release)-> 打包 上預發環境 QA 產品驗 ->
 merge master(user_KY1624_dev_master 合master) -> 打包上版
 
+Master 拉同步代碼
+切分之 tzuhsuan_Y12345679-996_dev_master
+tzuhsuan_Y12345679-996_dev_master 寫代碼推 tzuhsuan_Y12345679-996_dev_master 遠程
+切
+develop 拉同步代碼
+切分之 tzuhsuan_Y12345679-996_merge_develop
+使用 cherry pick commit 合 tzuhsuan_Y12345679-996_dev_master 自己的多條 commit
+tzuhsuan_Y12345679-996_merge_develop 推遠程
+tzuhsuan_Y12345679-996_merge_develop 合到 develop
 
+------子模塊更新說明：
+克隆主倉庫
+git clone --recurse-submodules <主倉庫的URL>
+這個命令會同時克隆主倉庫和所有子模塊。
 
+如果已經克隆主倉庫，但沒有拉取子模塊，可以使用以下命令：
+
+git submodule update --init --recursive
+更新現有子模塊：
+如果主倉庫的子模塊已經存在，但需要更新到最新版本，可以使用：
+
+git submodule update --remote --merge
+這將拉取子模塊的最新代碼，併合併到當前分支。
 
 ----分支
 下載所有遠程分支
@@ -66,7 +87,7 @@ git branch -a
 刪除分支
 git branch -d <branch>
 
-刪除 "远程" 分支
+刪除 "遠程" 分支
 git push origin :tzuhsuan_Y12345679-996_dev_master
 
 
