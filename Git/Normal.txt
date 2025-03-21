@@ -66,6 +66,10 @@ git branch -a
 刪除分支
 git branch -d <branch>
 
+刪除 "远程" 分支
+git push origin :tzuhsuan_Y12345679-996_dev_master
+
+
 
 拉取遠程分支 feat/emailCod
 git fetch origin feat/emailCode
