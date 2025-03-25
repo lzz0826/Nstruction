@@ -1,16 +1,50 @@
 
-
 git status
 
 git pull
 
 git push origin main
 
+git push --force**慎用，會覆蓋遠端記錄
+
 git add --all
 
 git commit -m 'xxx'
 
 git log
+
+git checkout main    # 切換到 main 分支
+git merge feature   # 把 feature 分支合併到 main
+
+把當前分支的 commit 重新應用 在指定分支上：
+git checkout feature
+git rebase main  # 把 feature 分支變基到 main 最新狀態 **變基後可能需要強制 push (git push --force)，影響遠端記錄。
+
+從 另一個分支 把 某個 commit 取出並應用到當前分支：
+git checkout main
+git cherry-pick abc1234  # 把 abc1234 這個 commit 複製到 main
+
+撤銷 abc1234 這個 commit，但不影響歷史記錄
+git revert abc1234
+
+暫存變更
+git stash pop  # 取回最近一次的 stash
+git stash apply stash@{1}  # 取回指定 stash
+
+同步最新代碼並變基
+git pull --rebase origin main
+
+修改當前專案的 Git 提交者
+git config user.name "你的正確名稱"
+git config user.email "你的正確郵箱"
+git config --get user.name
+git config --get user.email
+
+修改全局 Git 設定（影響所有專案）
+git config --global user.name "你的正確名稱"
+git config --global user.email "你的正確郵箱"
+git config --global --get user.name
+git config --global --get user.email
 
 # 添加一個遠程倉庫
 git remote add origin git@github.com:lzz0826/ShardingSphere.git
@@ -21,7 +55,6 @@ git remote add origin https://github.com/your-username/your-repository.git
 如果 origin 已經存在但 URL 錯誤，可以重新設定：
 git remote set-url origin <repository-URL>
 
-
 放暫存
 git stash
 
@@ -30,6 +63,13 @@ git stashpop
 
 查看提交紀錄 案q離開
 git log main
+
+修改最近一次 commit 的作者
+git commit --amend --author="Tony <tony@example.com>"
+git push --force**慎用，會覆蓋遠端記錄
+
+
+
 
 
 ---推送新分支(正規流程)
@@ -89,7 +129,6 @@ git branch -d <branch>
 
 刪除 "遠程" 分支
 git push origin :tzuhsuan_Y12345679-996_dev_master
-
 
 
 拉取遠程分支 feat/emailCod
