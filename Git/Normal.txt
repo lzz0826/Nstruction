@@ -55,11 +55,18 @@ git remote add origin https://github.com/your-username/your-repository.git
 如果 origin 已經存在但 URL 錯誤，可以重新設定：
 git remote set-url origin <repository-URL>
 
+查看當前修改與原始代碼的差異:
+git diff
+git diff 檔案路徑
+
+還原單個文件:
+git checkout -- 檔案路徑
+
 放暫存
 git stash
 
 重載存取
-git stashpop
+git stash pop
 
 查看提交紀錄 案q離開
 git log main
