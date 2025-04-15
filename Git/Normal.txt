@@ -116,8 +116,8 @@ git clone --recurse-submodules <主倉庫的URL>
 這個命令會同時克隆主倉庫和所有子模塊。
 
 如果已經克隆主倉庫，但沒有拉取子模塊，可以使用以下命令：
-
 git submodule update --init --recursive
+
 更新現有子模塊：
 如果主倉庫的子模塊已經存在，但需要更新到最新版本，可以使用：
 
