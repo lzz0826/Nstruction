@@ -19,6 +19,9 @@ SHOW TABLES;
 查看錶結構：
 DESCRIBE 表名;
 
+查看用戶是否存在
+SELECT user, host FROM mysql.user WHERE user = 'user';
+
 創建用戶：
 CREATE USER '用戶名'@'主機' IDENTIFIED BY '密碼';
 
@@ -101,6 +104,11 @@ SHOW global status LIKE '%Slow_queries%';
 
 
 ------------------啟用慢查詢日誌 重啟就沒了-----------------
+
+確認是否開啟了 binlog
+SHOW VARIABLES LIKE 'log_bin';
+
+確認 binlog 格式是否是 ROW
 
 -- 查看是否啟用了慢查詢日誌
 SHOW global variables LIKE '%slow%';
