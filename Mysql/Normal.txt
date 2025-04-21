@@ -6,6 +6,10 @@ vi /etc/my.cnf
 登入
 mysql -h 192.168.1.100 -P 3306 -u root -p
 
+docker
+mysql -u root -p
+
+
 显示所有數據庫：
 SHOW DATABASES;
 
