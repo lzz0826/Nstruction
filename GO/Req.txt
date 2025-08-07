@@ -1,0 +1,29 @@
+
+binding:
+MemberId   int64           `json:"memberId" binding:"required"` // 會員號
+
+required	必填
+omitempty	如果值為空就略過驗證（與其他 tag 搭配用）
+gt=value	大於某個數值或長度（Greater Than）
+gte=value	大於等於
+lt=value	小於
+lte=value	小於等於
+eq=value	等於
+ne=value	不等於
+min=n	字串、array、slice、map 長度最小為 n
+max=n	最大長度為 n
+len=n	長度等於 n
+oneof=a b c	值只能是其中之一（空格分隔）
+email	必須是 email 格式
+url	必須是 URL 格式
+uuid	必須是 UUID
+numeric	必須是數字字串（"123" 可過）
+alphanum	英數混合
+alpha	只能是英文字母
+startswith=abc	以 abc 開頭
+endswith=xyz	以 xyz 結尾
+contains=foo	包含 foo
+excludes=bar	不包含 bar
+isdefault	是預設值
+datetime=2006-01-02	符合時間格式
+ip / ipv4 / ipv6	必須是對應的 IP 格式
