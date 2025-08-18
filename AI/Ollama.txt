@@ -1,0 +1,21 @@
+
+模型管理
+ollama list                # 列出已安裝的模型
+ollama pull llama3         # 下載模型 (例: llama3)
+ollama pull qwen2:7b       # 下載特定大小/版本
+ollama rm llama3           # 移除模型
+
+啟動聊天
+ollama run llama3          # 跟 llama3 對話
+ollama run qwen2:7b        # 用 Qwen2 7B 模型對話
+ollama run mistral "Hello" # 直接傳 prompt
+
+正在執行的模型
+ollama ps
+
+止某個正在跑的模型
+ollama stop llama3
+
+直接全停
+ollama stop all
+
