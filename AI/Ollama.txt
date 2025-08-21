@@ -19,3 +19,5 @@ ollama stop llama3
 直接全停
 ollama stop all
 
+刪除指定模型
+ollama rm <模型名稱>
