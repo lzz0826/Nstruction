@@ -6,6 +6,11 @@
 Datanode 無暴露端口需要使用指令查詢docker容器ip
 docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' e66558c3d824
 
+Mac解決方式配合nginx反向代理:
+在宿主機 /etc/hosts 補上：  sudo nano /etc/hosts
+127.0.0.1 datanode01
+127.0.0.1 datanode02
+
 # core-site.xml 配置
 CORE-SITE.XML_fs.default.name=hdfs://namenode  # HDFS 默認命名空間地址
 CORE-SITE.XML_fs.defaultFS=hdfs://namenode  # HDFS 默認文件系統
