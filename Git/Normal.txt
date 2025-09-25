@@ -17,8 +17,8 @@ git checkout main    # 切換到 main 分支
 git merge feature   # 把 feature 分支合併到 main
 
 
-手动还原 `go.work.sum`（适合已经 commit）
-如果你已经 commit 了 `go.work.sum` 的改动，但不想它进入 MR，可以：
+手動還原 `go.work.sum`（適合已經 commit）
+如果你已經 commit 了 `go.work.sum` 的改動，但不想它進入 MR，可以：
 git checkout origin/master -- go.work.sum
 git add go.work.sum
 git commit --amend
@@ -92,7 +92,7 @@ git stash pop
 git log main
 
 
-=查看某个文件的修改纪录（简洁列表
+=查看某個文件的修改紀錄（簡潔列表
 git log -- db/mdata/rediskey.go
 
 修改最近一次 commit 的作者
@@ -147,6 +147,15 @@ git submodule update --init --recursive
 
 git submodule update --remote --merge
 這將拉取子模塊的最新代碼，併合併到當前分支。
+
+-----忽略衝突文件
+使用自己本地的版本 (放棄遠程改動)
+git checkout --ours fdadmin-member fdadmin-other fdadmin-withdrawal
+git add fdadmin-member fdadmin-other fdadmin-withdrawal
+
+使用遠程的版本 (放棄本地改動)
+git checkout --theirs fdadmin-member fdadmin-other fdadmin-withdrawal
+git add fdadmin-member fdadmin-other fdadmin-withdrawal
 
 ----分支
 下載所有遠程分支
