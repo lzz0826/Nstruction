@@ -18,6 +18,11 @@ brew uninstall go
 查安裝訊息
 brew list go@1.17
 
+改mac hosts
+sudo vi /etc/hosts
+sudo dscacheutil -flushcache
+
+
 ------環境變數
 Update your PATH in ~/.zshrc:
 echo 'export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"' >> ~/.zshrc
