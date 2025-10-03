@@ -1,11 +1,5 @@
 
 
-
-## 注意事項:
-上傳下載使用 UI URL ip會動態帶入 外部訪問使用 docker 需要使用暴露與端口
-Datanode 無暴露端口需要使用指令查詢docker容器ip
-docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' e66558c3d824
-
 Mac解決方式配合nginx反向代理:
 在宿主機 /etc/hosts 補上：  sudo nano /etc/hosts
 127.0.0.1 datanode01
