@@ -58,6 +58,26 @@ git remote set-url origin <repository-URL>
 git diff
 git diff 檔案路徑
 
+--新增忽略文件
+git add .gitignore
+git commit -m "Add .gitignore file"
+git push
+
+-- cherry-pick
+
+切換到 main 分支：
+git checkout main
+
+查看 feature 分支的日誌，找到需要的提交：
+git log feature
+
+應用該提交：
+git cherry-pick [commit-hash]
+
+GitHub 倉庫中刪除已經上傳的文件。這不會刪除本地文件，只是將它們從倉庫中移除。你可以使用以下命令：
+git rm --cached 文件名
+git rm -r --cached .idea
+
 --------------------------  查詢 -------------------------------
 
 git log
@@ -134,9 +154,36 @@ git fetch origin
 git checkout 你的分支
 git merge origin/目标分支
 
--------------------------- 模塊 -------------------------------
+-----忽略衝突文件
+使用自己本地的版本 (放棄遠程改動)
+git checkout --ours fdadmin-member fdadmin-other fdadmin-withdrawal
+git add fdadmin-member fdadmin-other fdadmin-withdrawal
 
-TODO
+使用遠程的版本 (放棄本地改動)
+git checkout --theirs fdadmin-member fdadmin-other fdadmin-withdrawal
+git add fdadmin-member fdadmin-other fdadmin-withdrawal
+
+從遠程倉庫的 main 分支拉取更新，並允許合併不相關的歷史
+git pull origin main --allow-unrelated-histories
+
+-------------------------- 回滾 -------------------------------
+
+git reset ：回滾到某次提交。
+git reset --soft ：此次提交之後的修改會被退回到暫存區。
+git reset --hard ：此次提交之後的修改不做任何保留， git status 查看工作區是沒有記錄的。
+
+單獨還原
+git restore docker/goAdminRedis/docker-compose.yml
+
+原特定的文件到特定的分支或提交
+git restore --source <commit/branch> <file>
+
+還原該文件到 main 分支的狀態
+git restore --source main docker/goAdminRedis/docker-compose.yml
+
+
+
+-------------------------- 子模塊 -------------------------------
 
 ---推送新分支(正規流程)
 1. git checkout -b feat/newBracnch
@@ -182,61 +229,5 @@ git submodule update --init --recursive
 
 git submodule update --remote --merge
 這將拉取子模塊的最新代碼，併合併到當前分支。
-
------忽略衝突文件
-使用自己本地的版本 (放棄遠程改動)
-git checkout --ours fdadmin-member fdadmin-other fdadmin-withdrawal
-git add fdadmin-member fdadmin-other fdadmin-withdrawal
-
-使用遠程的版本 (放棄本地改動)
-git checkout --theirs fdadmin-member fdadmin-other fdadmin-withdrawal
-git add fdadmin-member fdadmin-other fdadmin-withdrawal
-
-
-git log 查hard
-
-從遠程倉庫的 main 分支拉取更新，並允許合併不相關的歷史
-git pull origin main --allow-unrelated-histories
-
-
------回滾
-git reset ：回滾到某次提交。
-git reset --soft ：此次提交之後的修改會被退回到暫存區。
-git reset --hard ：此次提交之後的修改不做任何保留， git status 查看工作區是沒有記錄的。
-
-單獨還原
-git restore docker/goAdminRedis/docker-compose.yml
-
-原特定的文件到特定的分支或提交
-git restore --source <commit/branch> <file>
-
-還原該文件到 main 分支的狀態
-git restore --source main docker/goAdminRedis/docker-compose.yml
-
-
---新增忽略文件
-git add .gitignore
-git commit -m "Add .gitignore file"
-git push
-
-
-
-----GitHub 倉庫中刪除已經上傳的文件。這不會刪除本地文件，只是將它們從倉庫中移除。你可以使用以下命令：
-git rm --cached 文件名
-git rm -r --cached .idea
-
--- cherry-pick
-
-切換到 main 分支：
-git checkout main
-
-查看 feature 分支的日誌，找到需要的提交：
-git log feature
-
-應用該提交：
-git cherry-pick [commit-hash]
-
-如果成功，main 分支將包含該提交的更改。
-
 
 
