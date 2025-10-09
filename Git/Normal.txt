@@ -1,4 +1,5 @@
 
+-------------------------- 基本 -------------------------------
 git status
 
 git pull
@@ -16,43 +17,21 @@ git log
 git checkout main    # 切換到 main 分支
 git merge feature   # 把 feature 分支合併到 main
 
+同步最新代碼並變基
+git pull --rebase origin main
 
-手動還原 `go.work.sum`（適合已經 commit）
-如果你已經 commit 了 `go.work.sum` 的改動，但不想它進入 MR，可以：
-git checkout origin/master -- go.work.sum
-git add go.work.sum
-git commit --amend
-
-
-
-
-撤銷最近一次 commit，保留修改內容（常用）
-git reset --soft HEAD~1
-
-撤銷最近一次 commit，讓修改回到未暫存狀態
-git reset --mixed HEAD~1
-
-撤銷 commit，並清掉修改（非常危險）
-git reset --hard HEAD~1
-
-
-把當前分支的 commit 重新應用 在指定分支上：
-git checkout feature
-git rebase main  # 把 feature 分支變基到 main 最新狀態 **變基後可能需要強制 push (git push --force)，影響遠端記錄。
-
-從 另一個分支 把 某個 commit 取出並應用到當前分支：
-git checkout main
-git cherry-pick abc1234  # 把 abc1234 這個 commit 複製到 main
-
-撤銷 abc1234 這個 commit，但不影響歷史記錄
-git revert abc1234
+還原單個文件:
+git checkout -- 檔案路徑
 
 暫存變更
 git stash pop  # 取回最近一次的 stash
 git stash apply stash@{1}  # 取回指定 stash
 
-同步最新代碼並變基
-git pull --rebase origin main
+放暫存
+git stash
+
+重載存取
+git stash pop
 
 修改當前專案的 Git 提交者
 git config user.name "你的正確名稱"
@@ -79,29 +58,85 @@ git remote set-url origin <repository-URL>
 git diff
 git diff 檔案路徑
 
-還原單個文件:
-git checkout -- 檔案路徑
+--------------------------  查詢 -------------------------------
 
-放暫存
-git stash
-
-重載存取
-git stash pop
+git log
 
 查看提交紀錄 案q離開
 git log main
 
-
-=查看某個文件的修改紀錄（簡潔列表
+查看某個文件的修改紀錄（簡潔列表
 git log -- db/mdata/rediskey.go
+
+
+-------------------------- 分之 -------------------------------
+
+下載所有遠程分支
+git fetch origin
+
+查看所有分支
+git branch -a
+
+刪除分支
+git branch -d <branch>
+
+刪除 "遠程" 分支
+git push origin :tzuhsuan_Y12345679-996_dev_master
+
+
+拉取遠程分支 feat/emailCod
+git fetch origin feat/emailCode
+這將從遠程倉庫 (origin) 拉取 feat/emailCode 分支的最新更新，但它不會自動創建或切換到本地分支。
+
+要將遠程分支的更改合併到本地分支
+git checkout -b feat/emailCode origin/feat/emailCode
+這將在本地創建一個名為 feat/emailCode 的新分支，並將其設置為跟蹤遠程分支 origin/feat/emailCode。現在你可以在本地工作並推送更改到遠程分支。
+
+-------------------------- commit -------------------------------
+手動還原 `go.work.sum`（適合已經 commit）
+如果你已經 commit 了 `go.work.sum` 的改動，但不想它進入 MR，可以：
+git checkout origin/master -- go.work.sum
+git add go.work.sum
+git commit --amend
+
+撤銷最近一次 commit，保留修改內容（常用）
+git reset --soft HEAD~1
+
+撤銷最近一次 commit，讓修改回到未暫存狀態
+git reset --mixed HEAD~1
+
+撤銷 commit，並清掉修改（非常危險）
+git reset --hard HEAD~1
+
+回到某次 410028e7 commit 並推上遠程分支
+git reset --hard 410028e7
+git push -f origin <分支名>
+
+把當前分支的 commit 重新應用 在指定分支上：
+git checkout feature
+git rebase main  # 把 feature 分支變基到 main 最新狀態 **變基後可能需要強制 push (git push --force)，影響遠端記錄。
+
+從 另一個分支 把 某個 commit 取出並應用到當前分支：
+git checkout main
+git cherry-pick abc1234  # 把 abc1234 這個 commit 複製到 main
+
+撤銷 abc1234 這個 commit，但不影響歷史記錄
+git revert abc1234
+
 
 修改最近一次 commit 的作者
 git commit --amend --author="Tony <tony@example.com>"
 git push --force**慎用，會覆蓋遠端記錄
 
+-------------------------- 解衝突 -------------------------------
+解決遠程衝突
+git fetch origin
+git checkout 你的分支
+git merge origin/目标分支
 
+-------------------------- 模塊 -------------------------------
 
-
+TODO
 
 ---推送新分支(正規流程)
 1. git checkout -b feat/newBracnch
@@ -157,27 +192,6 @@ git add fdadmin-member fdadmin-other fdadmin-withdrawal
 git checkout --theirs fdadmin-member fdadmin-other fdadmin-withdrawal
 git add fdadmin-member fdadmin-other fdadmin-withdrawal
 
-----分支
-下載所有遠程分支
-git fetch origin
-
-查看所有分支
-git branch -a
-
-刪除分支
-git branch -d <branch>
-
-刪除 "遠程" 分支
-git push origin :tzuhsuan_Y12345679-996_dev_master
-
-
-拉取遠程分支 feat/emailCod
-git fetch origin feat/emailCode
-這將從遠程倉庫 (origin) 拉取 feat/emailCode 分支的最新更新，但它不會自動創建或切換到本地分支。
-
-要將遠程分支的更改合併到本地分支
-git checkout -b feat/emailCode origin/feat/emailCode
-這將在本地創建一個名為 feat/emailCode 的新分支，並將其設置為跟蹤遠程分支 origin/feat/emailCode。現在你可以在本地工作並推送更改到遠程分支。
 
 git log 查hard
 
