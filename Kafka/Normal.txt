@@ -1,11 +1,13 @@
 
 
 创建一个名为 test-topic 的主题，用于测试:
---create：创建新主题。
---topic：主题名称。
---bootstrap-server：Kafka 服务器地址和端口。
---replication-factor：副本因子，单节点环境设置为 1。
---partitions：分区数，设置为 1 便于测试。
+| 參數                                  | 說明                     |
+| ----------------------------------- | ---------------------- |
+| `--create`                          | 建立新 topic              |
+| `--topic test-topic`                | Topic 名稱是 `test-topic` |
+| `--bootstrap-server localhost:9092` | Kafka broker 位址（通常在本機） |
+| `--replication-factor 1`            | 副本數為 1（單節點開發環境）        |
+| `--partitions 1`                    | 分區數 1（簡單測試用）           |
 kafka-topics --create --topic test-topic --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1
 
 列出所有主题:
