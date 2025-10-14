@@ -1,0 +1,75 @@
+
+
+------------- Netcat 網路連線上讀取和寫入資料的網路工具 -------------
+
+基本語法
+nc [選項] 主機 連接埠
+nc -l [選項] [port]         # 監聽 (listen)
+
+簡單 TCP 連線（client）
+nc 127.0.0.1 9999
+
+在本地監聽（server） 等待連線並接收文字。不加 -p 在多數版本也可直接指定 port。
+nc -l 9999
+
+監聽並保持多次連線（GNU netcat 的 -k） -k 使監聽在一個連線結束後繼續接受新的連線（某些 macOS/busybox 版本沒有 -k）。
+nc -lk 9999
+
+將傳入資料寫到檔案（接收檔案）
+nc -l 9999 > received.bin
+
+傳送檔案（client 端）配合上面的接收端即可做簡單檔案傳輸。
+nc 127.0.0.1 9999 < file_to_send.bin
+
+UDP 模式 (-u)
+# 監聽 UDP
+nc -ul 9999
+
+# 傳送 UDP
+nc -u 127.0.0.1 9999
+
+設定連線逾時 (-w) 在 5 秒內沒建立連線則退出；某些版本 -w 也可設置寫入逾時。
+nc -w 5 192.168.1.10 80
+
+掃描連接埠（快速檢查是否開啟）-z 只掃描不傳資料，-v 顯示詳細（verbose）。部分版本用 -z -v。
+nc -zv example.com 20-25
+
+Banner grab（抓取服務標頭）
+nc -v example.com 80
+# 然後輸入: GET / HTTP/1.0
+# 空行 -> 會回傳 HTTP header
+
+
+建立簡單聊天（terminal chat） 雙方輸入內容即可互聊。
+# A 機 (監聽)
+nc -l 9999
+
+# B 機 (連線)
+nc A_IP 9999
+
+使用 -e 執行指令（風險高，很多版本禁用） 警告：-e 可導致系統被遠端執行命令，安全風險高；很多系統禁用或不支援。若需要安全遠端管理，請用 SSH。
+# 非建議：允許把shell當作 stdin/stdout（常被用於反向 shell）
+nc -l -p 4444 -e /bin/bash
+
+掃描多個主機/多個 port（用腳本或迴圈）
+# 單純示例：檢查多個 port
+for p in 22 80 443; do nc -zv host $p; done
+
+
+把 netcat 用於測試 HTTP POST
+printf "POST /path HTTP/1.1\r\nHost: example.com\r\nContent-Length: 5\r\n\r\nhello" | nc example.com 80
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
